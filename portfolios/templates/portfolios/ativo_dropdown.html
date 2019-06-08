@@ -1,0 +1,4 @@
+<option value="">---------</option>
+{% for ativo in ativos %}
+<option value="{{ ativo.pk }}">{{ ativo.desc_ativo }}</option>
+{% endfor %}

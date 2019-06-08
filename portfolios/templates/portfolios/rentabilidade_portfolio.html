@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block extrahead %}
+
+{% endblock %}
+
+{% block content %}
+  <div lass="container">
+    <div class="alert alert-dark" role="alert">
+    <h1>{{ portfolio.nome }}</h1>
+  </div>
+    <div class="container">
+
+      {% for sec in sections  %}
+
+            <h3 class="border-bottom">{{ sec }}</h3>
+            <div class="container">
+            {% for aplic, preco in aplicacoes.items %}
+
+              {% if sec == aplic.ativo.grupo_ativo.desc_grupo %}
+
+                  <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                      <div class="card-header">{{ aplic.ativo.desc_ativo }}</div>
+                      <div class="card-body">
+                        <h5 class="card-title">Preço de Entrada</h5>
+                        <p class="card-text"> {{ aplic.preco_entrada}} </p>
+                        <h5 class="card-title">Preço atual</h5>
+                        <p class="card-text"> {{ preco.preco }} </p>
+                      </div>
+                  </div>
+
+              {% endif %}
+            {% endfor %}
+            </div>
+
+    {% endfor %}
+    </div>
+  </div>
+
+{% endblock content %}

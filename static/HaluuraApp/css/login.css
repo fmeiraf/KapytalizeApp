@@ -1,0 +1,56 @@
+
+body {
+  background-color: #552E6A;
+  color: #DCDCDC;
+  font-family: 'Poppins', sans-serif;
+}
+
+.login-box {
+
+  text-align: center;
+  width: 550px;
+  height: auto;
+  background-color: white;
+  padding: 60px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 20%;
+  border: 2px solid #fb3769;
+  border-radius: 10px;
+
+}
+
+.logo {
+  height: 70px;
+  margin-bottom: 30px;
+}
+.form-control {
+  margin-bottom: 20px;
+}
+.btn {
+  width: 100%;
+  font-size: 16px;
+  background-color: #fc1953;
+  border: none;
+}
+
+.btn-criar {
+  width: 100%;
+  font-size: 16px;
+  background-color: #641B44;
+  border: none;
+}
+
+.form-space {
+  margin-bottom: 20px;
+}
+
+.loginSignUpSeparator {
+  background-color: #fff;
+  padding: 0 .5em;
+  color: #6c7378;
+  top: -.7em;
+  box-sizing: border-box;
+  border-top: 0.5px solid #E1E3E4;
+  border-bottom: 0.5px solid #E1E3E4;
+}

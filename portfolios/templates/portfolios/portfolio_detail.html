@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+  <div class="jumbotron">
+    <h1>{{portfolio.nome}}</h1>
+    <h2>Criado em:<p>{{portfolio.data_criacao}}</p></h2>
+    <br/>
+
+    <h3><a href="{% url 'portfolios:manage' pk=portfolio.pk %}">Manage this Portfolio</a></h3>
+    <h3><a href="{% url 'portfolios:rentabilidade' pk=portfolio.pk %}">Ver rentabilidade</a></h3>
+
+  </div>
+
+
+{% endblock content %}

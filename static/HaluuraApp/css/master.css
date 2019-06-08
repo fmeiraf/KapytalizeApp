@@ -1,0 +1,53 @@
+/* ##### FONTS and Elements ##### */
+
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+a {
+  color: white;
+}
+
+a:hover {
+  color: #fb3769;
+}
+
+.body-logon{
+  background-color: #ac9fb3;
+}
+
+/* ##### NAVBAR ##### */
+
+.navbar-custom {
+  background-color: #290a3a ;
+  font-weight: bold;
+  font-size: 16px;
+  border-bottom: 5px solid #fb3769;
+
+}
+
+/* ##### BUTTONS ##### */
+
+.buton-destaque {
+  background-color: #fc1953;
+  border: 2px solid #fb3769;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 2px 2px;
+  border-radius: 22px;
+}
+
+.buton {
+  background-color: transparent;
+  border: 2px solid #fb3769;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 2px 2px;
+  border-radius: 22px;
+}
