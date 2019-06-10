@@ -1,14 +1,73 @@
 {% extends "base.html" %}
 {% load bootstrap3 %}
+{% load minus_date %}
 
 {% block content %}
-    <form method="post" >
-      {% csrf_token %}
+  <div class="container mb-2">
+    <form method="get" >
       {% bootstrap_form form %}
-      <input type="submit" class="btn btn-default" value="Filter">
+      <input type="submit" class="btn btn-primary" value="Filter">
     </form>
+    {{lastdate}}
+
+    {% for x in teste  %}
+      {{x}}
+
+    {% endfor %}
+  </div>
 
 
+    <table class="table table-striped table-dark">
+      <thead>
+        <th scope="col">Codigo Ativo</th>
+        <th scope="col">Data Atualização</th>
+        <th scope="col">D-1 CHECK</th>
+        <th scope="col">D-2 CHECK</th>
+        <th scope="col">D-3 CHECK</th>
+        <th scope="col">D-4 CHECK</th>
+        <th scope="col">D-5 CHECK</th>
+      </thead>
+      <tbody>
+        {% for obj in qs  %}
+        <tr>
+          <td> {{obj.sigla_ativo}} </td>
+          <td> {{obj.data}} </td>
+          <td> {% if lastdate|minus_days:1 <= obj.data %}
+                  1
+               {% else %}
+                  0
+               {% endif %}
+          </td>
+          <td> {% if lastdate|minus_days:2 <= obj.data %}
+                  1
+               {% else %}
+                  0
+               {% endif %}
+          </td>
+          <td> {% if lastdate|minus_days:3 <= obj.data %}
+                  1
+               {% else %}
+                  0
+               {% endif %}
+          </td>
+          <td> {% if lastdate|minus_days:4 <= obj.data %}
+                  1
+               {% else %}
+                  0
+               {% endif %}
+          </td>
+          <td> {% if lastdate|minus_days:5 <= obj.data %}
+                  1
+               {% else %}
+                  0
+               {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+
+    </table>
 
 
 

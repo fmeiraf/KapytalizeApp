@@ -6,6 +6,6 @@ from . import views
 app_name = 'sysManager'
 
 urlpatterns = [
-    path('check_cargas/', views.CargasListView.as_view(), name='check_cargas'),
+    path('check_cargas/', views.CargasListView, name='check_cargas'),
 
 ]

@@ -43,6 +43,7 @@ class PrecoAtivo(models.Model):
     class Meta:
         managed = False
         db_table = 'price'
+        get_latest_by = '-data'
 
 # ---- Managed models - Created in Django ----
 
