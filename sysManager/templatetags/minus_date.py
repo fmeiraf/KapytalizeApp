@@ -4,5 +4,6 @@ import datetime
 register = template.Library()
 
 @register.filter
-def minus_days(value, days):
-    return value - datetime.timedelta(days=days)
+def minus_date_in_days(lastdate, updatedate):
+    dif = lastdate - updatedate
+    return dif.days

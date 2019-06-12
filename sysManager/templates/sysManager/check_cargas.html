@@ -1,19 +1,22 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% load bootstrap3 %}
 {% load minus_date %}
+{% load range %}
+
+{% block extrahead %}
+<script src="{% static 'HaluuraApp/js/SysCargaChecker.js' %}" type="text/javascript"> </script>
+{% endblock %}
+
 
 {% block content %}
+
   <div class="container mb-2">
     <form method="get" >
       {% bootstrap_form form %}
-      <input type="submit" class="btn btn-primary" value="Filter">
+      <input type="submit" class="btn btn-primary" id="cargaCheck" value="Filter">
     </form>
     {{lastdate}}
-
-    {% for x in teste  %}
-      {{x}}
-
-    {% endfor %}
   </div>
 
 
@@ -32,36 +35,15 @@
         <tr>
           <td> {{obj.sigla_ativo}} </td>
           <td> {{obj.data}} </td>
-          <td> {% if lastdate|minus_days:1 <= obj.data %}
-                  1
-               {% else %}
-                  0
-               {% endif %}
-          </td>
-          <td> {% if lastdate|minus_days:2 <= obj.data %}
-                  1
-               {% else %}
-                  0
-               {% endif %}
-          </td>
-          <td> {% if lastdate|minus_days:3 <= obj.data %}
-                  1
-               {% else %}
-                  0
-               {% endif %}
-          </td>
-          <td> {% if lastdate|minus_days:4 <= obj.data %}
-                  1
-               {% else %}
-                  0
-               {% endif %}
-          </td>
-          <td> {% if lastdate|minus_days:5 <= obj.data %}
-                  1
-               {% else %}
-                  0
-               {% endif %}
-          </td>
+          {% for value in 6|temp_range  %}
+              <td class="delay_checker">
+                {% if lastdate|minus_date_in_days:obj.data.date <= value %}
+                      1
+                {% else %}
+                      0
+                {% endif %}
+              </td>
+          {% endfor %}
         </tr>
         {% endfor %}
 
@@ -69,6 +51,12 @@
 
     </table>
 
+
+    <script type="text/javascript">
+      $('#cargaCheck').click(function(){
+        CargaColoring()
+      });
+    </script>
 
 
 
