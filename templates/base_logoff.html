@@ -30,10 +30,11 @@
 
         <ul class="navbar-nav ml-auto">
           {% if user.is_authenticated %}
-            <li class="nav-item"> <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a></li>
-            <li class="nav-item"> <a class="nav-link" href="{% url 'accounts:change_password' %}">Change your Password</a></li>
-            <li class="nav-item"> <a class="nav-link" href="{% url 'portfolios:list' %}">Portfolio List</a></li>
-            <li class="nav-item"> <a class="nav-link" href="{% url 'portfolios:create' %}">Add New Portfolio</a></li>
+          <li class="nav-item"> <a class="nav-link a-navbar" href="{% url 'accounts:logout' %}">Logout</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{% url 'accounts:change_password' %}">Change your Password</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{% url 'portfolios:list' %}">Portfolio List</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{% url 'portfolios:create' %}">Add New Portfolio</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{% url 'sysManager:check_cargas' %}">Check Cargas</a></li>
           {% else %}
             <li class="nav-item">
               <a class="nav-link buton" href="{% url 'accounts:login' %}">Entrar</a>

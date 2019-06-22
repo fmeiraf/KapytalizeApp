@@ -12,6 +12,8 @@ urlpatterns = [
     path('detail/<pk>/', views.PortfolioDetailView.as_view(), name='detail'),
     path('manage/<pk>/', views.manage_portfolios, name='manage'),
     path('rentabilidade/<pk>/', views.rentabilidade_portofolio, name='rentabilidade'),
+    path('resumo/<pk>/', views.portfolio_resumo, name='resumo'),
+
 
     # AJAX calls for js renders
     path('autocomplete/', views.AtivoAutoComplete.as_view(), name='ativo-autocomplete' ),

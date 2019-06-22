@@ -14,7 +14,7 @@ class AplicacaoCreationForm(ModelForm):
 
     class Meta:
         model = models.Aplicacao
-        fields = ['tipo_ativo','ativo', 'data_aplicacao', 'preco_entrada', 'taxa_entrada', 'valor_aplicado', 'quantidade_aplicada']
+        fields = ['tipo_ativo','ativo', 'data_aplicacao', 'preco_entrada', 'taxa_entrada', 'valor_aplicado']
         widgets = {
                 'ativo': autocomplete.ModelSelect2(url='portfolios:ativo-autocomplete',
                                                    forward=['tipo_ativo']),

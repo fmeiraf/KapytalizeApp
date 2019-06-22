@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block extrahead %}
+
+{% endblock %}
+
+{% block content %}
+  <div lass="container">
+    <div class="alert alert-dark" role="alert">
+    <h1>{{ portfolio.nome }}</h1>
+  </div>
+    <div class="container">
+      {% for aplic, preco in aplicacoes.items  %}
+        Ativo: {{ aplic.ativo.desc_ativo }}
+        Preço inicio ano: {{ preco.0 }}
+        Preço atual: {{ preco.1 }}
+
+
+      {% endfor %}
+    </div>
+  </div>
+
+{% endblock content %}

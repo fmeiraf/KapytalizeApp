@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.db.models import Q
 from collections import defaultdict
+import datetime
 
 import pdb
 from dal import autocomplete
@@ -95,3 +96,33 @@ def rentabilidade_portofolio(request, pk):
     return render(request, 'portfolios/rentabilidade_portfolio.html', { 'portfolio' : portfolio,
                                                                         'aplicacoes' : aplica_preco,
                                                                         'sections' : sectionChecker} )
+
+@login_required
+def portfolio_resumo(request, pk):
+    portfolio = get_object_or_404(models.Portfolio, pk=pk)
+    aplicacoes = models.Aplicacao.objects.filter(portfolio=portfolio.pk)
+
+    tipoAtivo = models.Aplicacao.customObjects.get_tipoAplicacao_list(pk=portfolio.pk)
+    lista_ativos = models.Aplicacao.customObjects.get_ativos_list(pk=portfolio.pk)
+
+    valor_aplicado_total = models.Aplicacao.customObjects.get_valor_aplicado_sum(pk=portfolio.pk)
+    valor_aplicado_por_tipo = models.Aplicacao.customObjects.get_valor_byTipo(pk=portfolio.pk)
+
+
+
+    print('tipo ativo: {}'.format(tipoAtivo))
+    print('lista ativo: {}'.format(lista_ativos))
+    print('valor aplicado portfolio: {}'.format(valor_aplicado_total))
+    print('valor por tipo ativo: {}'.format(valor_aplicado_por_tipo))
+
+
+
+
+
+    # Valores de ganho historico do portfolio
+    # Destaques do dia
+    # Desempenho historico - categorias
+    # melhores / piores rendimentos historicos por ativo
+
+    return render(request, 'portfolios/resumo.html', { 'portfolio' : portfolio,
+                                                       'tipoAtivo' : tipoAtivo} )
