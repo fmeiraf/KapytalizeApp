@@ -1,14 +1,13 @@
 from django.shortcuts import render
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, DeleteView
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.db.models import Q
-from collections import defaultdict
 import datetime
 
 import pdb
@@ -34,13 +33,34 @@ class PortfolioCreate(LoginRequiredMixin, CreateView):
 class PortfolioListView(LoginRequiredMixin, ListView):
     model = models.Portfolio
     template_name = 'portfolios/portfolio_list.html'
+    context_object_name = 'portfolios'
 
     def get_queryset(self):
         return models.Portfolio.objects.filter(user=self.request.user).order_by('-data_criacao')
 
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+
+        user_portfolios = models.Portfolio.objects.filter(user=self.request.user).order_by('-data_criacao')
+        aplicacao_byTipo_func = models.Aplicacao.customObjects.get_valor_byTipo
+
+        aplica_preco = dict([(portfolio, aplicacao_byTipo_func(pk=portfolio.pk)) for portfolio in user_portfolios])
+
+        data['portfolio_completo'] = aplica_preco
+
+        return data
+
+
 class PortfolioDetailView(LoginRequiredMixin, DetailView):
     model = models.Portfolio
     template_name = 'portfolios/portfolio_detail.html'
+
+class PortfolioDeleteView(LoginRequiredMixin, DeleteView):
+    model = models.Portfolio
+    success_url = reverse_lazy('portfolios:list')
+    template_name = 'portfolios/portfolio_delete.html'
+    context_object_name = 'portfolios'
+
 
 class AtivoAutoComplete(LoginRequiredMixin, autocomplete.Select2QuerySetView):
     def get_queryset(self):
@@ -104,6 +124,8 @@ def portfolio_resumo(request, pk):
 
     tipoAtivo = models.Aplicacao.customObjects.get_tipoAplicacao_list(pk=portfolio.pk)
     lista_ativos = models.Aplicacao.customObjects.get_ativos_list(pk=portfolio.pk)
+    detalhe_ativos = models.Aplicacao.customObjects.get_ativos_detail(pk=portfolio.pk)
+    preco_detalhado = models.PrecoAtivo.customObjects.get_last_prices_detail(detalhe_ativos)
 
     valor_aplicado_total = models.Aplicacao.customObjects.get_valor_aplicado_sum(pk=portfolio.pk)
     valor_aplicado_por_tipo = models.Aplicacao.customObjects.get_valor_byTipo(pk=portfolio.pk)
@@ -112,8 +134,12 @@ def portfolio_resumo(request, pk):
 
     print('tipo ativo: {}'.format(tipoAtivo))
     print('lista ativo: {}'.format(lista_ativos))
+    print('lista detalhada ativos: {}'.format(detalhe_ativos))
     print('valor aplicado portfolio: {}'.format(valor_aplicado_total))
     print('valor por tipo ativo: {}'.format(valor_aplicado_por_tipo))
+    print('valores detalhados por ativo: {}'.format(preco_detalhado))
+
+
 
 
 

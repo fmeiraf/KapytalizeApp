@@ -1,6 +1,18 @@
 {% extends "base.html" %}
 {% load bootstrap3 %}
 
+{% block extranav %}
+  <nav class="navbar navbar-default navbar-expand-lg navbar-secondary font-poppins" role="navigation" id="navbar-secondary">
+    <div class="container">
+      <ul class="navbar-nav nav-center">
+          <li class="nav-item ml-3 mr-3"> <a class="nav-link" href="{% url 'portfolios:list' %}">Seus Portfolios</a></li>
+          <li class="nav-item ml-3 mr-3 active"> <a class="nav-link" href="{% url 'portfolios:create' %}">Criar Novo</a></li>
+          <li class="nav-item ml-3 mr-3"> <a class="nav-link" href="{% url 'portfolios:list' %}">Resumo</a></li>
+      </ul>
+    </div>
+  </nav>
+{% endblock extranav %}
+
 {% block content %}
 
   <form method="post" >

@@ -1,15 +1,94 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% load bootstrap3 %}
+
+{% block extranav %}
+  <nav class="navbar navbar-default navbar-expand-lg navbar-secondary mb-0" role="navigation" id="navbar-secondary">
+    <div class="container">
+      <ul class="navbar-nav nav-center">
+          <li class="nav-item ml-3 mr-3 active"> <a class="nav-link" href="{% url 'portfolios:list' %}">Seus Portfolios</a></li>
+          <li class="nav-item ml-3 mr-3"> <a class="nav-link" href="{% url 'portfolios:create' %}">Criar Novo</a></li>
+          <li class="nav-item ml-3 mr-3"> <a class="nav-link" href="{% url 'portfolios:list' %}">Resumo</a></li>
+      </ul>
+    </div>
+  </nav>
+{% endblock extranav %}
+
+{% block pre-content %}
+  <div class="pre-content-body p-4 mb-2">
+    <div class="container">
+      <div class="row d-lg-flex align-items-center">
+        <div class="col-6">
+          <h1 id="font-dark">Bem vindo, {{user}} !</h1> <br>
+          <p id="font-darkish">Aqui estão todos os portfolios que você já cadastrou,
+                eles são a base de todas as informações que você acompanha.</p>
+        </div>
+        <div class="col-6">
+          <div class="info-card p-3">
+              <div class="row d-lg-flex align-items-center">
+                <div class="col-1">
+                  <img src="{% static 'HaluuraApp/imgs/interrogation.png' %}" width="30" height="30" alt="">
+                </div>
+                <div class="col-11">
+                  <h5>O que são 'Portfolios' ?</h5>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <p id="light-card">
+                    Portfolios são conjuntos de ativos (suas aplicações). Eles servem para agrupar todos os seus investimentos
+                    e deixar a análise do seu desempenho mais simples.
+                  </p>
+                </div>
+             </div>
+             <div class="row">
+               <div class="col">
+                 <a href="{% url 'portfolios:create' %}">
+                   Criar Novo Portfolio >
+                 </a>
+               </div>
+             </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+{% endblock pre-content %}
+
 
 {% block content %}
 
-  {% for portfolio in object_list %}
-  <div class="jumbotron">
-    <h1><a href="{% url 'portfolios:detail' pk=portfolio.pk %}">{{ portfolio.nome }}</a></h1>
+<div class="container content-section">
+  <div class="row">
+
+
+    {% for portfolio, valorByTipo in portfolio_completo.items  %}
+
+          <div class="card m-2" style="width: 18rem;">
+              <img src="..." class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">{{ portfolio.nome }}</h5>
+                <p class="card-text">Criado em: {{ portfolio.data_criacao.date }}</p>
+              </div>
+            <ul class="list-group list-group-flush">
+              {% for tipo, valores in valorByTipo.items %}
+                <li class="list-group-item">
+                  <p> {{tipo}} : {{valores.valor}} </p>
+                </li>
+              {% endfor %}
+            </ul>
+            <div class="card-body">
+              <a href="{% url 'portfolios:manage' pk=portfolio.pk %}" class="buton-destaque">Editar</a>
+              <a href="{% url 'portfolios:delete' pk=portfolio.pk %}" class="buton-destaque">Excluir</a>
+            </div>
+         </div>
+
+    {% endfor %}
+
   </div>
-  {% empty %}
-    <h1>Nothing yet.</h1>
-  {% endfor %}
+</div>
+
 
 
 {% endblock content %}

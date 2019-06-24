@@ -32,15 +32,41 @@ class GrupoAtivo(models.Model):
         managed = False
         db_table = 'grupo_ativo'
 
+class Preco_Custom_QuerySet(models.QuerySet):
+    def get_last_prices_detail(self, listaAtivo):
+        '''Retorna soma total de um portfolio de ativos a preço corrente'''
+        anoAtual = datetime.date.today().year
+
+        cleanTesouro= self.exclude(cod_ativo__sigla_ativo__contains='COMPRA-') # retirando da base titulos com dados referencia para COMPRA
+
+        lastPrices = cleanTesouro.filter(cod_ativo__in=listaAtivo.keys()).order_by('cod_ativo', '-data').distinct('cod_ativo')
+        prices = dict()
+        for ativo, params in listaAtivo.items():
+            for price in lastPrices:
+                if ativo.desc_ativo == price.cod_ativo.desc_ativo:
+                    preco = params['quantidade'] * price.preco
+                    preco_unidade = price.preco
+                    break
+
+            if not preco:
+                preco = 0
+                preco_unidade = 0
+            prices[ativo] = {'quantidade' : params['quantidade'],
+                             'valor_aplicado' : params['valor_aplicado'],
+                             'data_aplicacao' : params['data_aplicacao'],
+                             'valor_total_atualizado' : preco,
+                             'valor_atual_unitario' : preco_unidade }
+
+
+        return prices
+
 class Preco_Custom_Manager(models.Manager):
-    def get_price_range_currentYear(self, listaAtivo, year):
-        '''Retorna query com ativos selecionados, no ano de escolha'''
-        firstDayYear = datetime.date(year, 1, 1)
-        lastDayYear = datetime.date(year,12,31)
+    def get_queryset(self):
+        return Preco_Custom_QuerySet(self.model, using=self._db)  # Important!
 
-        price_range = self.filter(cod_ativo_desc_ativo__in=listaAtivo).filter(data__range=(firstDayYear, lastDayYear))
-
-        return price_range
+    def get_last_prices_detail(self, listaAtivo):
+        '''Retorna uma lista com os tipos de ativos no portfolio'''
+        return self.get_queryset().get_last_prices_detail(listaAtivo)
 
 
 class PrecoAtivo(models.Model):
@@ -99,7 +125,15 @@ class Aplicacao_Custom_Queryset(models.QuerySet):
     def get_ativos_list(self, pk):
         '''Retorna uma lista com os diferentes ativos no portfolio'''
         aplicacoes = self.filter(portfolio=pk)
-        ativos = {aplic.ativo.desc_ativo for aplic in aplicacoes}
+        ativos = {aplic.ativo for aplic in aplicacoes}
+        return ativos
+
+    def get_ativos_detail(self, pk):
+        '''Retorna uma lista com os diferentes ativos e seus parametros unicos {ativo:{quantidade, valor aplicado}}'''
+        aplicacoes = self.filter(portfolio=pk)
+        ativos = dict([(aplic.ativo, {'quantidade':aplic.quantidade_aplicada,
+                                      'valor_aplicado': aplic.valor_aplicado,
+                                      'data_aplicacao': aplic.data_aplicacao }) for aplic in aplicacoes])
         return ativos
 
     def get_valor_aplicado_sum(self, pk):
@@ -110,7 +144,7 @@ class Aplicacao_Custom_Queryset(models.QuerySet):
         return soma_total
 
     def get_valor_byTipo(self, pk):
-        '''Retorna dict com total aplicado por tipo de ativo no portfolio {tipo:[total quantidade, total valor]}'''
+        '''Retorna dict com total aplicado por tipo de ativo no portfolio {tipo:{quantidade:total quantidade, 'valor:total valor}}'''
         aplicacoes = self.filter(portfolio=pk)
         types = {aplic.ativo.grupo_ativo.desc_grupo for aplic in aplicacoes}
 
@@ -118,7 +152,7 @@ class Aplicacao_Custom_Queryset(models.QuerySet):
         for tp in types:
             precos = [aplic.valor_aplicado for aplic in aplicacoes if aplic.ativo.grupo_ativo.desc_grupo == tp]
             qtds = [aplic.quantidade_aplicada for aplic in aplicacoes if aplic.ativo.grupo_ativo.desc_grupo == tp]
-            soma_tipo[tp] = [sum(qtds),sum(precos)]
+            soma_tipo[tp] = {'quantidade':sum(qtds), 'valor':sum(precos)}
 
         return soma_tipo
 
@@ -134,6 +168,10 @@ class Aplicacao_Custom_Manager(models.Manager):
     def get_ativos_list(self, pk):
         '''Retorna uma lista com os diferentes ativos no portfolio'''
         return self.get_queryset().get_ativos_list(pk)
+
+    def get_ativos_detail(self, pk):
+        '''Retorna uma lista com os diferentes ativos no portfolio'''
+        return self.get_queryset().get_ativos_detail(pk)
 
     def get_valor_aplicado_sum(self, pk):
         '''Retorna valor total aplicado no portfolio'''

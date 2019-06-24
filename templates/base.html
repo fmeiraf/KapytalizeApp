@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{% static 'HaluuraApp/css/master.css' %}">
 
     {% block extrahead %}{% endblock %}
-    <title>Kapytalize - Test Server</title>
+    <title>Kapytalize</title>
 
   </head>
 
@@ -24,26 +24,55 @@
 
     <nav class="navbar navbar-expand-lg navbar-custom font-poppins" role="navigation" id="navbar">
       <div class="container">
-        <a class="navbar-brand mynav" href="{% url 'home' %}">
-            <img src="{% static 'HaluuraApp/imgs/logo-icon-transp.png' %}" width="50" height="50" alt="">
+        <a class="navbar-brand mynav" href="{% url 'portfolios:list' %}">
+            <img src="{% static 'HaluuraApp/imgs/logo-icon-transp.png' %}" width="55" height="55" alt="">
         </a>
 
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav mr-auto">
           {% if user.is_authenticated %}
-            <li class="nav-item"> <a class="nav-link a-navbar" href="{% url 'accounts:logout' %}">Logout</a></li>
-            <li class="nav-item"> <a class="nav-link" href="{% url 'accounts:change_password' %}">Change your Password</a></li>
-            <li class="nav-item"> <a class="nav-link" href="{% url 'portfolios:list' %}">Portfolio List</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'portfolios:list' %}">Portfolios</a></li>
             <li class="nav-item"> <a class="nav-link" href="{% url 'portfolios:create' %}">Add New Portfolio</a></li>
-            <li class="nav-item"> <a class="nav-link" href="{% url 'sysManager:check_cargas' %}">Check Cargas</a></li>
 
+        </ul>
+
+        <ul class="navbar-nav ml-auto d-lg-flex align-items-center">
+
+          <li class="nav-item ml-auto align-middle">
+            <a class="nav-link a-navbar d-lg-flex align-items-center" href="{% url 'sysManager:check_cargas' %}">
+              <img src="{% static 'HaluuraApp/imgs/SysManagerIcon.png' %}" class="p-1" width="35" height="35" alt="Conta">
+              <span> SysManager </span>
+            </a>
+          </li>
+
+        </ul>
+
+        <ul class="navbar-nav ml-auto d-lg-flex align-items-center">
+
+          <li class="nav-item ml-auto align-middle">
+            <a class="nav-link a-navbar d-lg-flex align-items-center" href="{% url 'accounts:logout' %}">
+              <img src="{% static 'HaluuraApp/imgs/AccountOptions.png' %}" class="p-1" width="35" height="35" alt="Conta">
+              <span>Sua Conta</span>
+            </a>
+          </li>
+          <li class="nav-item ml-auto">
+            <a class="nav-link a-navbar" href="{% url 'accounts:logout' %}">
+              <span class="align-bottom">Sair</span>
+            </a>
+          </li>
           {% else %}
             <li class="nav-item"> <a class="nav-link" href="{% url 'accounts:login' %}">LogIn</a></li>
             <li class="nav-item"> <a class="nav-link" href="{% url 'accounts:signup' %}">SignUp</a></li>
           {% endif %}
+
         </ul>
+
       </div>
     </nav>
 
+    {%block extranav%}
+    {% endblock %}
+
+    {% block pre-content %}{% endblock pre-content %}
 
     <div class="container">
       {% block content %}

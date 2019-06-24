@@ -9,10 +9,12 @@
       if (tipoAtivo == 3) {
           if (taxa_status_hidden) {
             taxa_container.show();
+            AutoFilterForm();
           }
       } else {
           if (!taxa_status_hidden) {
             taxa_container.hide();
+            AutoFilterForm();
           }
       }
 

@@ -1,6 +1,28 @@
 /* ##### FONTS and Elements ##### */
 
-.font-poppins {
+#font-dark {
+  color: #2c2e2f;
+}
+
+#font-darkish {
+  color: #6c7378;
+}
+
+#light-card {
+  color: #B8A6C2;
+  font-size: 1rem;
+
+}
+
+h1,h2,h3,h4,h5, {
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+}
+
+p, span, a,ul, li, div {
+  font-weight: 500;
+  font-size: 1.1rem;
+  line-height: 1.5rem;
   font-family: 'Poppins', sans-serif;
 }
 
@@ -12,18 +34,63 @@ a:hover {
   color: #fb3769;
 }
 
+/* ##### COINTAINER AND BIG BLOCKS ##### */
+
 .body-logon{
-  background-color: #ac9fb3;
+  background-color: #F3E4FB;
 }
+
+.content-section {
+  background-color: white;
+  box-shadow: 2px 2px grey;
+  border-radius: 5px;
+
+}
+
+.pre-content-body {
+  background-color: white;
+  border-bottom: 1px solid #fb3769 ;
+}
+
+.info-card {
+  background-color: #290a3a;
+  color: white;
+  display: inline-block;
+  width: 95%;
+  height: 100%;
+  vertical-align: middle;
+  border-radius: 9px;
+  box-shadow: 2px 2px;
+}
+
 
 /* ##### NAVBAR ##### */
 
 .navbar-custom {
   background-color: #290a3a ;
-  font-weight: bold;
-  font-size: 16px;
-  border-bottom: 5px solid #fb3769;
+  font-weight: 800;
+  font-size: 17px;
 
+}
+
+nav#navbar-secondary a:hover{
+  color: #81A100;
+}
+
+.navbar-secondary{
+  background-color: #fb3769 ;
+  font-weight: 1200;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.nav-center {
+  position: relative;
+  left: 28%;
+}
+
+.active {
+  border-bottom: 2px solid white ;
 }
 
 /* ##### BUTTONS ##### */

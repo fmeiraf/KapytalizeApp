@@ -8,6 +8,16 @@
 <script src="{% static 'HaluuraApp/js/SysCargaChecker.js' %}" type="text/javascript"> </script>
 {% endblock %}
 
+{% block extranav %}
+  <nav class="navbar navbar-default navbar-expand-lg navbar-secondary font-poppins" role="navigation" id="navbar-secondary">
+    <div class="container">
+      <ul class="navbar-nav nav-center">
+          <li class="nav-item active"> <a class="nav-link" href="{% url 'sysManager:check_cargas' %}">Check Cargas</a></li>
+      </ul>
+    </div>
+  </nav>
+{% endblock extranav %}
+
 
 {% block content %}
 

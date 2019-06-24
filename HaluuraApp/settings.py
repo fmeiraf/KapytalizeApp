@@ -137,6 +137,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 
-LOGIN_REDIRECT_URL = 'accounts:logged'
+LOGIN_REDIRECT_URL = 'portfolios:list'
 
 django_heroku.settings(locals())
