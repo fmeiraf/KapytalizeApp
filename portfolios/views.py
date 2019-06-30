@@ -70,8 +70,12 @@ class AtivoAutoComplete(LoginRequiredMixin, autocomplete.Select2QuerySetView):
         qs = models.AtivoDetalhe.objects.all()
 
         tipoAtivo = self.forwarded.get('tipo_ativo', None)
+        #pdb.set_trace()
         if tipoAtivo:
             qs = qs.filter(grupo_ativo=tipoAtivo)
+
+        if tipoAtivo == 3:
+            qs = qs.exclude(sigla_ativo__contains='COMPRA-')
 
         if self.q:
             qs = qs.filter( Q(desc_ativo__istartswith=self.q) |
@@ -80,10 +84,21 @@ class AtivoAutoComplete(LoginRequiredMixin, autocomplete.Select2QuerySetView):
         return qs
 
     def get_result_label(self, item):
-        return '{} - {}'.format(item.desc_ativo,item.sigla_ativo)
+        tipoAtivo = self.forwarded.get('tipo_ativo', None)
+
+        if tipoAtivo == 3:
+            return '{}'.format(item.desc_ativo)
+        else:
+            return '{} - {}'.format(item.desc_ativo,item.sigla_ativo)
 
     def get_selected_result_label(self, item):
-        return '{} - {}'.format(item.desc_ativo,item.sigla_ativo)
+        tipoAtivo = self.forwarded.get('tipo_ativo', None)
+
+        if tipoAtivo == 3:
+            return '{}'.format(item.desc_ativo)
+        else:
+            return '{} - {}'.format(item.desc_ativo,item.sigla_ativo)
+
 
 @login_required
 def manage_portfolios(request, pk):
