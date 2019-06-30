@@ -10,6 +10,7 @@ from django.urls import reverse, reverse_lazy
 from django.db.models import Q
 import datetime
 
+from django import db
 import pdb
 from dal import autocomplete
 from . import forms, models
@@ -71,21 +72,23 @@ class AtivoAutoComplete(LoginRequiredMixin, autocomplete.Select2QuerySetView):
 
         tipoAtivo = self.forwarded.get('tipo_ativo', None)
         #pdb.set_trace()
-        if tipoAtivo and tipoAtivo != 3:
+        if tipoAtivo != '3':
+            print('not 3')
             qs = qs.filter(grupo_ativo=tipoAtivo)
         else:
-            qs = qs.filter(grupo_ativo=tipoAtivo).exclude(sigla_ativo__startswith='COMPRA')
+            print('its 3')
+            qs = qs.filter(grupo_ativo=tipoAtivo).exclude(sigla_ativo__startswith='COMPRA-')
 
         if self.q:
-            qs = qs.filter( Q(desc_ativo__istartswith=self.q) |
-                            Q(sigla_ativo__istartswith=self.q) )
+            qs = qs.filter( Q(desc_ativo__icontains=self.q) |
+                            Q(sigla_ativo__icontains=self.q) )
 
         return qs
 
     def get_result_label(self, item):
         tipoAtivo = self.forwarded.get('tipo_ativo', None)
 
-        if tipoAtivo == 3:
+        if tipoAtivo == '3':
             return '{}'.format(item.desc_ativo)
         else:
             return '{} - {}'.format(item.desc_ativo,item.sigla_ativo)
@@ -145,6 +148,9 @@ def portfolio_resumo(request, pk):
     valor_aplicado_por_tipo = models.Aplicacao.customObjects.get_valor_byTipo(pk=portfolio.pk)
 
 
+    teste = models.AtivoDetalhe.objects.all().filter(grupo_ativo=3).exclude(sigla_ativo__startswith='COMPRA-')
+    teste2 = [x.sigla_ativo for x in teste]
+
 
     print('tipo ativo: {}'.format(tipoAtivo))
     print('lista ativo: {}'.format(lista_ativos))
@@ -152,6 +158,9 @@ def portfolio_resumo(request, pk):
     print('valor aplicado portfolio: {}'.format(valor_aplicado_total))
     print('valor por tipo ativo: {}'.format(valor_aplicado_por_tipo))
     print('valores detalhados por ativo: {}'.format(preco_detalhado))
+
+    print('teste detalhe: {}'.format(teste2))
+
 
 
 
