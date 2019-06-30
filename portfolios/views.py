@@ -74,7 +74,7 @@ class AtivoAutoComplete(LoginRequiredMixin, autocomplete.Select2QuerySetView):
         if tipoAtivo and tipoAtivo != 3:
             qs = qs.filter(grupo_ativo=tipoAtivo)
         else:
-            qs = qs.exclude(sigla_ativo__contains='COMPRA-').filter(grupo_ativo=tipoAtivo)
+            qs = qs.filter(grupo_ativo=tipoAtivo).exclude(sigla_ativo__startswith='COMPRA')
 
         if self.q:
             qs = qs.filter( Q(desc_ativo__istartswith=self.q) |
