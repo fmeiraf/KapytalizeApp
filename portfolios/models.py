@@ -34,7 +34,7 @@ class GrupoAtivo(models.Model):
 
 class Preco_Custom_QuerySet(models.QuerySet):
     def get_last_prices_detail(self, listaAtivo):
-        '''Retorna soma total de um portfolio de ativos a preço corrente'''
+        '''Retorna dados de aplicacao e valor atual de um portfolio de ativos a preço corrente'''
         anoAtual = datetime.date.today().year
 
         cleanTesouro= self.exclude(cod_ativo__sigla_ativo__contains='COMPRA-') # retirando da base titulos com dados referencia para COMPRA
@@ -60,13 +60,24 @@ class Preco_Custom_QuerySet(models.QuerySet):
 
         return prices
 
+    def get_last_prices_unity(self, cod_ativo):
+        '''retorna ultimo preço de um ativo em específico'''
+        lastPrice = self.filter(cod_ativo=cod_ativo).order_by('-data').first()
+        return lastPrice.preco
+
+
+
 class Preco_Custom_Manager(models.Manager):
     def get_queryset(self):
         return Preco_Custom_QuerySet(self.model, using=self._db)  # Important!
 
     def get_last_prices_detail(self, listaAtivo):
-        '''Retorna uma lista com os tipos de ativos no portfolio'''
+        '''Retorna dados de aplicacao e valor atual de um portfolio de ativos a preço corrente'''
         return self.get_queryset().get_last_prices_detail(listaAtivo)
+
+    def get_last_prices_unity(self, cod_ativo):
+        '''retorna ultimo preço de um ativo em específico'''
+        return self.get_queryset().get_last_prices_unity(cod_ativo)
 
 
 class PrecoAtivo(models.Model):

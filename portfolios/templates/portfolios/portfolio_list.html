@@ -63,24 +63,60 @@
   <div class="row">
 
 
-    {% for portfolio, valorByTipo in portfolio_completo.items  %}
+    {% for portfolio, valorByTipo in portfolios_completo.items  %}
 
-          <div class="card m-2" style="width: 18rem;">
-              <img src="..." class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">{{ portfolio.nome }}</h5>
-                <p class="card-text">Criado em: {{ portfolio.data_criacao.date }}</p>
+          <div class="card portfolio-card m-3" style="width: 18rem;">
+              <div class="card-top p-2">
+                <div class="container">
+                  <div class="row">
+                    <p id="light-card">Performance:</p>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                      <div class="card-top-frame d-lg-flex align-items-center p-2 m-1">
+                        <h1>{{ ganho }}%</h1>
+                      </div>
+                    </div>
+                    <div class="col">
+                    </div>
+                  </div>
+                  <div class="row card-top-legend pt-1 m-0 text-right">
+                    <p class="p-0 m-0" id="light-card">Valor Inicial: {{valorTotalAplicado}}</p>
+                    <p class="p-0 m-0" id="light-card">Valor Atualizado: {{valorTotalAtualizado}}</p>
+                  </div>
+
+                </div>
               </div>
-            <ul class="list-group list-group-flush">
+              <div class="card-body">
+                <h3 class="c-title text-center" id="font-dark">{{ portfolio.nome }}</h3>
+                <p class="c-text" id="font-darkish">Criado em: {{ portfolio.data_criacao.date }}</p>
+              </div>
+            <ul class="list-group list-group-flush p-0 m-0">
               {% for tipo, valores in valorByTipo.items %}
                 <li class="list-group-item">
                   <p> {{tipo}} : {{valores.valor}} </p>
                 </li>
               {% endfor %}
             </ul>
-            <div class="card-body">
-              <a href="{% url 'portfolios:manage' pk=portfolio.pk %}" class="buton-destaque">Editar</a>
-              <a href="{% url 'portfolios:delete' pk=portfolio.pk %}" class="buton-destaque">Excluir</a>
+            <div class="card-body p-0">
+              <div class="row card-bottom ">
+                <div class="col card-buton-bottom-right">
+                    <a href="{% url 'portfolios:manage' pk=portfolio.pk %}">
+                      <div class="p-1 m-0 full-width">
+                        <p class="text-center">Editar</p>
+                      </div>
+                    </a>
+                </div>
+                <div class="col card-buton-bottom-left">
+                  <a href="{% url 'portfolios:delete' pk=portfolio.pk %}">
+                    <div class="p-1 m-0 full-width">
+                      <p class="text-center">Excluir</p>
+                    </div>
+                  </a>
+                </div>
+              </div>
             </div>
          </div>
 

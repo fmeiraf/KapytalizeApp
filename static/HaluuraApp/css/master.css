@@ -36,6 +36,10 @@ a:hover {
 
 /* ##### COINTAINER AND BIG BLOCKS ##### */
 
+.full-width{
+  width: 100%;
+}
+
 .body-logon{
   background-color: #F3E4FB;
 }
@@ -63,6 +67,52 @@ a:hover {
   box-shadow: 2px 2px;
 }
 
+.portfolio-card {
+  background-color: #f6edef ;
+  box-shadow: 2px 2px grey;
+}
+
+.card-top{
+  background-color: #290a3a ;
+}
+
+.card-top-legend {
+  
+}
+
+.c-title{
+
+}
+
+.c-text{
+  font-style: italic;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.card-top-frame{
+  background-color: #290a3a ;
+  border-radius: 40px;
+  border: 5px solid #fb3769;
+  color: white;
+  font-size: 4rem;
+}
+
+.card-bottom {
+  color: white;
+  height: 100%;
+  width: auto;
+  padding: auto;
+  margin: auto;
+}
+
+.card-buton-bottom-right {
+  background-color: #ff0040 ;
+}
+
+.card-buton-bottom-left {
+  background-color: #830b29 ;
+}
 
 /* ##### NAVBAR ##### */
 

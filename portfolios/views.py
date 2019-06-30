@@ -47,7 +47,21 @@ class PortfolioListView(LoginRequiredMixin, ListView):
 
         aplica_preco = dict([(portfolio, aplicacao_byTipo_func(pk=portfolio.pk)) for portfolio in user_portfolios])
 
-        data['portfolio_completo'] = aplica_preco
+        valorTotalAplicado = 0
+        valorTotalAtualizado = 0
+        for port, aplics in aplica_preco.items():
+            lista_ativos = models.Aplicacao.customObjects.get_ativos_detail(port.pk)
+            for ativo, params in lista_ativos.items():
+                valorTotalAplicado += params['valor_aplicado']
+                ultimoPreco = models.PrecoAtivo.customObjects.get_last_prices_unity(ativo.cod_ativo)
+                valorTotalAtualizado += float(params['quantidade']) * ultimoPreco
+
+        ganho = round(((valorTotalAtualizado/valorTotalAplicado)-1),2)*100
+
+        data['portfolios_completo'] = aplica_preco
+        data['valorTotalAplicado'] = round(valorTotalAplicado)
+        data['valorTotalAtualizado'] = round(valorTotalAtualizado)
+        data['ganho'] = ganho
 
         return data
 
@@ -148,9 +162,6 @@ def portfolio_resumo(request, pk):
     valor_aplicado_por_tipo = models.Aplicacao.customObjects.get_valor_byTipo(pk=portfolio.pk)
 
 
-    teste = models.AtivoDetalhe.objects.all().filter(grupo_ativo=3).exclude(sigla_ativo__startswith='COMPRA-')
-    teste2 = [x.sigla_ativo for x in teste]
-
 
     print('tipo ativo: {}'.format(tipoAtivo))
     print('lista ativo: {}'.format(lista_ativos))
@@ -159,7 +170,6 @@ def portfolio_resumo(request, pk):
     print('valor por tipo ativo: {}'.format(valor_aplicado_por_tipo))
     print('valores detalhados por ativo: {}'.format(preco_detalhado))
 
-    print('teste detalhe: {}'.format(teste2))
 
 
 
