@@ -71,11 +71,10 @@ class AtivoAutoComplete(LoginRequiredMixin, autocomplete.Select2QuerySetView):
 
         tipoAtivo = self.forwarded.get('tipo_ativo', None)
         #pdb.set_trace()
-        if tipoAtivo:
+        if tipoAtivo and tipoAtivo != 3:
             qs = qs.filter(grupo_ativo=tipoAtivo)
-
-        if tipoAtivo == 3:
-            qs = qs.exclude(sigla_ativo__contains='COMPRA-')
+        else:
+            qs = qs.exclude(sigla_ativo__contains='COMPRA-').filter(grupo_ativo=tipoAtivo)
 
         if self.q:
             qs = qs.filter( Q(desc_ativo__istartswith=self.q) |
