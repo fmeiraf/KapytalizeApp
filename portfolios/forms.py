@@ -4,6 +4,9 @@ from . import models
 import pdb
 from dal import autocomplete
 
+class DateInput (forms.DateInput):
+    input_type='date'
+
 class PortfolioCreationForm(ModelForm):
     class Meta:
         model = models.Portfolio
@@ -14,10 +17,11 @@ class AplicacaoCreationForm(ModelForm):
 
     class Meta:
         model = models.Aplicacao
-        fields = ['tipo_ativo','ativo', 'data_aplicacao', 'preco_entrada', 'taxa_entrada', 'valor_aplicado']
+        fields = ['tipo_ativo','ativo', 'data_aplicacao', 'preco_entrada', 'valor_aplicado', 'taxa_entrada', ]
         widgets = {
                 'ativo': autocomplete.ModelSelect2(url='portfolios:ativo-autocomplete',
                                                    forward=['tipo_ativo']),
+                'data_aplicacao': DateInput(),
         }
 
 

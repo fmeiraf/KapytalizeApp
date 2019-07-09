@@ -59,7 +59,8 @@
 
       var tmplMarkup = $(self.templateId).html();
       var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
-      $(self.containerId).append(compiledTmpl);
+      // $(self.containerId).append(compiledTmpl);
+      $('#lastFormFake').before(compiledTmpl);
 
       // run postClick method
       if (self.postClick != null) { self.postClick(); }

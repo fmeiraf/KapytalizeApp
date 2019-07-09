@@ -129,7 +129,8 @@ def manage_portfolios(request, pk):
             return HttpResponseRedirect(portfolio.get_absolute_url())
     else:
         formset = PortfolioInlineFormset(instance=portfolio)
-    return render(request, 'portfolios/manage_portfolio.html', {'formset':formset})
+    return render(request, 'portfolios/manage_portfolio.html', {'formset': formset,
+                                                                'portfolio':portfolio})
 
 # --------------------- Portfolio visualization -----------------------------------
 

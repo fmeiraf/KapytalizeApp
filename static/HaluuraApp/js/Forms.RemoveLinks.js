@@ -88,7 +88,7 @@
       };
 
 
-    $$.children().each(function(i){
+    $$.each(function(i){
       var row = $(this),
           del = row.find('input:checkbox[id $= "-DELETE"]');
       // console.log('here');
@@ -120,9 +120,9 @@
   };
 
   $.fn.RemoveLinks.defaults = {
-    deleteText: 'Excluir',            // Text for the delete link
+    deleteText: 'Excluir Ativo',            // Text for the delete link
     addCssClass: 'add-row',          // CSS class applied to the add link
-    deleteCssClass: 'delete-row',
+    deleteCssClass: 'delete-row btn btn-danger btn-sm',
     containerId: null
   };
 

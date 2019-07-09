@@ -11,4 +11,4 @@ class SignUp(CreateView):
     template_name = 'accounts/signup.html'
 
 class Logged(TemplateView):
-    template_name = 'accounts/logged.html'
+    template_name = 'portfolios/portfolio_list.html'
