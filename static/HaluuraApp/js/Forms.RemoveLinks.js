@@ -59,7 +59,7 @@
           row.find('a.' + delCssSelector).click(function() {
               var row = $(this).parents("div#form-block"),
                   del = row.find('input:hidden[id $= "-DELETE"]'),
-                  forms;
+                  forms = '';
 
               if (del.length) {
 
@@ -68,7 +68,7 @@
                 forms = row.not(':hidden');
 
               } else {
-                row.remove();
+                row.hide();
                 // Update the TOTAL_FORMS count:
                 forms = row.not(':hidden');
                 totalForms.val(forms.length);

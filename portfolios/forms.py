@@ -21,7 +21,6 @@ class AplicacaoCreationForm(ModelForm):
         widgets = {
                 'ativo': autocomplete.ModelSelect2(url='portfolios:ativo-autocomplete',
                                                    forward=['tipo_ativo']),
-                'data_aplicacao': DateInput(),
         }
 
 

@@ -15,6 +15,7 @@
     {# css #}
     <link rel="stylesheet" href="{% static 'HaluuraApp/css/master.css' %}">
 
+
     {% block extrahead %}{% endblock %}
     <title>Kapytalize</title>
 
@@ -31,7 +32,7 @@
         <ul class="navbar-nav mr-auto">
           {% if user.is_authenticated %}
             <li class="nav-item"> <a class="nav-link" href="{% url 'portfolios:list' %}">Portfolios</a></li>
-        
+
         </ul>
 
         <ul class="navbar-nav ml-auto d-lg-flex align-items-center">

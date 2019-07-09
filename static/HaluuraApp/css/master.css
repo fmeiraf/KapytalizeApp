@@ -122,6 +122,10 @@ a:hover {
   width: 98%;
 }
 
+div.help-block{
+  color: #ff0040 !important;
+}
+
 #form-block {
   width: 98%;
   height: 620px;

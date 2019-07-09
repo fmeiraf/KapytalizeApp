@@ -51,12 +51,13 @@
 
     this.addForm = function(ev) {
       ev.preventDefault();
-      var count = $(self.containerId).children().length;
+      // var count = $(self.containerId).children().length;
+      var count = $('.manage-form-frame').length - 2;
       if (count >= max) {
         console.log('exceeded max inline forms');  // should maybe have a callback option
         return;
       }
-
+      console.log
       var tmplMarkup = $(self.templateId).html();
       var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
       // $(self.containerId).append(compiledTmpl);
