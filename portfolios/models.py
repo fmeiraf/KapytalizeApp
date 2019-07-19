@@ -96,6 +96,27 @@ class PrecoAtivo(models.Model):
         db_table = 'price'
         get_latest_by = '-data'
 
+class Proventos_Custom_QuerySet(models.QuerySet):
+    def get_proventos_detail_unity(self, aplic):
+        '''Retorna dados de aplicacao e os valores recebidos de proventos de um portfolio de ativos'''
+        proventosAtivo = self.filter(cod_ativo=aplic.ativo).filter(data_com__gte=aplic.data_aplicacao).order_by('-data_com') # retirando da base titulos com dados referencia para COMPRA
+
+        proventos = dict()
+        for prov in proventosAtivo:
+            proventos[prov.cod_provento] = {'valor': prov.valor_provento,
+                                            'data_pagamento': prov.data_pagamento,
+                                            'tipo' : prov.tipo_provento,
+                                            'data_com': prov.data_com }
+        return proventos
+
+class Proventos_Custom_Manager(models.Manager):
+    def get_queryset(self):
+        return Proventos_Custom_QuerySet(self.model, using=self._db)  # Important!
+
+    def get_proventos_detail_unity(self, ativo):
+        '''Retorna dados de aplicacao e os valores recebidos de proventos de um portfolio de ativos'''
+        return self.get_queryset().get_proventos_detail_unity(ativo)
+
 
 class Proventos(models.Model):
     cod_provento = models.BigAutoField(primary_key=True)
@@ -105,6 +126,7 @@ class Proventos(models.Model):
     data_pagamento = models.DateField()
     data_inclusao = models.DateTimeField()
     tipo_provento = models.CharField(max_length=250)
+    customObjects = Proventos_Custom_Manager()
 
     class Meta:
         managed = False
@@ -138,6 +160,12 @@ class Aplicacao_Custom_Queryset(models.QuerySet):
         aplicacoes = self.filter(portfolio=pk)
         ativos = {aplic.ativo for aplic in aplicacoes}
         return ativos
+
+    def get_aplic_list(self, pk):
+        '''Retorna uma lista com os diferentes aplicações no portfolio'''
+        aplicacoes = self.filter(portfolio=pk)
+        aplics = {aplic for aplic in aplicacoes}
+        return aplics
 
     def get_ativos_detail(self, pk):
         '''Retorna uma lista com os diferentes ativos e seus parametros unicos {ativo:{quantidade, valor aplicado}}'''
@@ -179,6 +207,10 @@ class Aplicacao_Custom_Manager(models.Manager):
     def get_ativos_list(self, pk):
         '''Retorna uma lista com os diferentes ativos no portfolio'''
         return self.get_queryset().get_ativos_list(pk)
+
+    def get_aplic_list(self, pk):
+        '''Retorna uma lista com os diferentes ativos no portfolio'''
+        return self.get_queryset().get_aplic_list(pk)
 
     def get_ativos_detail(self, pk):
         '''Retorna uma lista com os diferentes ativos no portfolio'''

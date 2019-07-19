@@ -1,25 +1,144 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load bootstrap3 %}
+{% load joinStr %}
+{% load removeBlank %}
 
 {% block extrahead %}
-
 {% endblock %}
 
 {% block content %}
   <div lass="container">
-    <div class="alert alert-dark" role="alert">
-    <h1>{{ portfolio.nome }}</h1>
-  </div>
-    <div class="container">
-      {% for aplic, preco in aplicacoes.items  %}
-        Ativo: {{ aplic.ativo.desc_ativo }}
-        Preço inicio ano: {{ preco.0 }}
-        Preço atual: {{ preco.1 }}
 
 
-      {% endfor %}
+
+    <div class="container-fluid">
+      <div class="row resumo-header shadow-lg m-2">
+        <div class="col-4 d-lg-flex justify-content-center">
+          <div class="circle m-4">
+            <div class="circleContent">
+               <div class="circleValue">{{dadosTotais.GanhoPerc}}%</div>
+               <div class="circleUnit"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="container macro-dados m-2">
+            <div class="d-lg-flex justify-content-center m-4">
+
+            </div>
+            <div class="mdados-values m-0">
+              <p class="m-2"><strong >Valor Investido:</strong> {{dadosTotais.valorAplicado|floatformat:'0'}}</p>
+              <p class="m-2"><strong >Ganho c/ Valorização:</strong> {{dadosTotais.ganhoNominal|floatformat:'0'}}</p>
+              <p class="m-2"><strong >Ganho com Rendas:</strong> {{dadosTotais.proventos|floatformat:'0'}}</p>
+              <p class="m-2"><strong >Valor Atual:</strong> {{dadosTotais.valorAtualizado|floatformat:'0'}}</p>
+              <p class="m-2  p-1 mdados-destaque-header"><strong class="">Ganho Total:</strong> {{dadosTotais.ganhoFinal|floatformat:'0'}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="container macro-dados ml-5">
+            <div class="mdados-values m-0 float right">
+              <p class="m-2"><strong >Portfolio:</strong> {{ portfolio.nome }}</p>
+              <p class="m-2"><strong >Criado em:</strong> {{portfolio.data_criacao.date}}</p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="d-lg-flex mt-4 justify-content-center m-1">
+            <h3 class="strong-purple">Desempenho por Tipo</h3>
+          </div>
+            <div class="row macros-container w-100 p-2 m-1 d-lg-flex align-items-center">
+              {% for tipo,dadoTipo in dadosTipo.items  %}
+              <div class="col m-2 macros-card p-3 shadow">
+                <div class="align-items-center" id="macros-frame">
+                  <div class="{{ 'row macros-title m-0 p-1 justify-content-center '|joinStr:tipo }}">
+                    <p class="h5 text-center">{{ tipo }}</p>
+                  </div>
+                  <div class="row">
+                    <div class="col m-2">
+                      <div class="macros-circle d-lg-flex m-1 mb-2 p-2 justify-content-center">
+                        <p class="text-center h3"> {{ dadoTipo.GanhoPerc }}% </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="container macro-dados m-2">
+                  <div class="d-lg-flex justify-content-center p-1 m-1">
+                    {% with tipo|removeBlank as tipoAtivo %}
+                    <img class="m-2" src="{% static 'HaluuraApp/imgs/'|add:tipoAtivo|add:'iconP.png' %}" width="35" height="35" alt="">
+                    {% endwith %}
+                  </div>
+                  <div class="mdados-values m-0">
+                    <p class="m-2"><strong class="strong-purple">Valor Investido:</strong> {{dadoTipo.valorAplicado|floatformat:'0'}}</p>
+                    <p class="m-2"><strong class="strong-purple">Ganho c/ Valorização:</strong> {{dadoTipo.ganhoNominal|floatformat:'0'}}</p>
+                    <p class="m-2"><strong class="strong-purple">Ganho com Rendas:</strong> {{dadoTipo.proventos|floatformat:'0'}}</p>
+                    <p class="m-2"><strong class="strong-purple">Valor Atual:</strong> {{dadoTipo.valorAtualizado|floatformat:'0'}}</p>
+                    <p class="m-2  p-1 mdados-destaque"><strong class="">Ganho Total:</strong> {{dadoTipo.ganhoFinal|floatformat:'0'}}</p>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+          </div>
+          <div class="row macros-container w-100 p-3 m-2 d-lg-flex justify-content-center align-items-center">
+            <div class="d-block justify-content-center m-1 ">
+              <h3 class="strong-purple d-block">Informações Detalhadas</h3>
+            </div>
+            <br>
+            {% for tipo,dadoTipo in dadosTipo.items  %}
+            <div class="col-12 table-frame m-1 shadow-sm">
+              <div class="d-lg-flex justify-content-center">
+                <h4 class="light-card">{{ tipo }}</h4>
+              </div>
+              <div class="row">
+                <div class="{{ 'col-1 table-label '|joinStr:tipo }}">
+                </div>
+                <div class="col-11 d-lg-flex justify-content-center">
+                  <table class="table table-striped table-borderless table-hover table-sm">
+                    <thead class="">
+                      <tr  class="text-center" id="table-head-custom">
+                        <th scope="col">Sigla/Ativo</th>
+                        <th scope="col">Data Aplicação</th>
+                        <th scope="col">Preço Entrada</th>
+                        <th scope="col">Preço Atual</th>
+                        <th scope="col">Valor Aplicado</th>
+                        <th scope="col">Ganho% (Preço)</th>
+                        <th scope="col">Dividendos</th>
+                        <th scope="col">Ganho% (Dividendos)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="text-center" id="table-body-custom">
+                        {% for aplic, dadosAplic in aplicacoes.items %}
+                          {% if aplic.ativo.grupo_ativo.desc_grupo == tipo %}
+                            {% if tipo == 'Tesouro Direto' %}
+                            <th scope="row">{{aplic.ativo.desc_ativo}}</th>
+                            {% else %}
+                            <th scope="row">{{aplic.ativo.sigla_ativo}}</th>
+                            {% endif %}
+                            <td>{{aplic.data_aplicacao|date:'M Y'}}</td>
+                            <td>{{aplic.preco_entrada|floatformat:'2'}}</td>
+                            <td>{{dadosAplic.ultimoPreco|floatformat:'2'}}</td>
+                            <td>{{aplic.valor_aplicado}}</td>
+                            <td>{{dadosAplic.ganhoPercPreco}}%</td>
+                            <td>{{dadosAplic.proventos|floatformat:'0'}}</td>
+                            <td>{{dadosAplic.ganhoPercRendas}}%</td>
+                          {% endif %}
+                        {% endfor %}
+                      </tr>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 
 {% endblock content %}

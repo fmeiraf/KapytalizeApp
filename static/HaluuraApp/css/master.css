@@ -11,7 +11,10 @@
 #light-card {
   color: #B8A6C2;
   font-size: 1rem;
+}
 
+.strong-purple{
+  color: #290a3a !important;
 }
 
 h1,h2,h3,h4,h5, {
@@ -21,8 +24,8 @@ h1,h2,h3,h4,h5, {
 
 p, span, a,ul, li, div {
   font-weight: 500;
-  font-size: 1.1rem;
-  line-height: 1.5rem;
+  font-size: 1.0rem;
+  line-height: 1.2rem;
   font-family: 'Poppins', sans-serif;
 }
 
@@ -34,6 +37,11 @@ a:hover {
   color: #fb3769;
 }
 
+.section-title{
+  position:relative;
+  text-align: center
+}
+
 /* ##### COINTAINER AND BIG BLOCKS ##### */
 
 .full-width{
@@ -42,6 +50,11 @@ a:hover {
 
 .body-logon{
   background-color: #F3E4FB;
+  border-radius: 5px;
+}
+
+.frame-dotted-pink{
+  border: 1px dotted #fb3769 ;
 }
 
 .content-section {
@@ -178,6 +191,108 @@ div.help-block{
 }
 
 .form-control {
+}
+
+.circle {
+    position: relative;
+    width: 175px;
+    height: 175px;
+    border-radius: 100%;
+    border: 8px solid #fb3769;
+    text-align: center;
+    box-sizing: border-box;
+
+}
+
+.resumo-header{
+  background-color: #290a3a ;
+  border-radius: 6px;
+  color: white;
+  box-shadow: 2px 2px grey;
+}
+
+.circleContent {
+  position: absolute;
+  width: 100%;
+  top: 40%;
+/*   z-index: 2; */
+/*   font-weight: 300; */
+  line-height: 20px;
+}
+
+.circleValue {
+    font-size: 53px;
+}
+
+.circleUnit {
+    font-size: 18px;
+/*     font-weight: 400; */
+}
+#macros-frame{
+  background-color: #38314e;
+  color: white;
+  border-radius: 6px;
+  box-shadow: 4px 4px grey;
+}
+
+.macros-card {
+  background-color: #faf3fe;
+  border-radius: 6px;
+  box-shadow: 4px 4px grey;
+}
+
+.mdados-values{
+  font-size: 0.8rem !important;
+}
+
+.mdados-title{
+  height: 70%;
+  float: left;
+}
+
+.mdados-destaque{
+  background-color: #180d3c;
+  border-radius: 5px;
+  color: white;
+}
+
+.mdados-destaque-header{
+  background-color: #fb3769;
+  border-radius: 5px;
+  color: white;
+}
+
+strong.mdados-title {
+  color: #450a65 !important;
+}
+
+.macros-title{
+  background-color: #180d3c;
+}
+
+.macros-circle{
+  border-radius: 40px;
+  border: 5px solid #fb3769;
+  color: white;
+}
+
+.table-frame{
+  background-color: #faf3fe;
+  border-radius: 6px;
+}
+
+.table-label{
+  border-radius: 5px;
+}
+
+#table-head-custom{
+  font-size: 0.9rem !important;
+
+}
+
+#table-body-custom{
+  font-size: 0.95rem !important;
+
 }
 
 /* ##### NAVBAR ##### */
