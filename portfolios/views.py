@@ -8,6 +8,7 @@ from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.db.models import Q
+
 import datetime
 
 from django import db
@@ -56,12 +57,18 @@ class PortfolioListView(LoginRequiredMixin, ListView):
                 ultimoPreco = models.PrecoAtivo.customObjects.get_last_prices_unity(ativo.cod_ativo)
                 valorTotalAtualizado += float(params['quantidade']) * ultimoPreco
 
-        ganho = round(((valorTotalAtualizado/valorTotalAplicado)-1),2)*100
+        if valorTotalAplicado == 0 :
+            ganho = 0
+        else:
+            ganho = round(((valorTotalAtualizado/valorTotalAplicado)-1),2)*100
 
         data['portfolios_completo'] = aplica_preco
+        data['portfolios_exist'] = bool(aplica_preco)
         data['valorTotalAplicado'] = round(valorTotalAplicado)
         data['valorTotalAtualizado'] = round(valorTotalAtualizado)
         data['ganho'] = ganho
+
+
 
         return data
 
