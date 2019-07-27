@@ -16,42 +16,52 @@
     <link rel="stylesheet" href="{% static 'HaluuraApp/css/master.css' %}">
 
     {% block extrahead %}{% endblock %}
-    <title>Haluura - Test Server</title>
+    <title>Kapytalize - Rastreio Automático do seu Investimento</title>
 
   </head>
 
   <body class="body-logoff">
 
-    <nav class="navbar navbar-expand-lg font-poppins" role="navigation" id="navbar">
-      <div class="container">
-        <a class="navbar-brand mynav" href="{% url 'home' %}">
-            <img src="{% static 'HaluuraApp/imgs/Logo-Brand-Transp.png' %}" class="w-25 h-25" alt="">
-        </a>
-        <ul class="navbar-nav ml-auto d-lg-flex align-items-center">
-          <li class="nav-item ml-auto">
-            <a class="nav-link a-navbar" href="{% url 'accounts:login' %}">
-              <div class="buton">
-                <strong>Entrar</strong>
-              </div>
-            </a>
-          </li>
-        </ul>
+    <nav class="navbar navbar-expand-lg font-poppins mb-4" role="navigation" id="navbar">
+      <div class=" container d-flex align-items-center">
+        <div class="container d-flex align-items-center">
+          <a class="navbar-brand mynav" href="{% url 'home' %}">
+              <img src="{% static 'HaluuraApp/imgs/Logo-Brand-Transp.png' %}" class=""  alt="" id="logo-brand">
+          </a>
+          <ul class="navbar-nav ml-auto d-flex align-items-center">
+            <li class="nav-item ml-auto">
+              <a class="nav-link a-navbar" href="{% url 'accounts:login' %}">
+                <div class="buton">
+                  <strong>Entrar</strong>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
+
     </nav>
 
     <div class="container">
 
       <div class="row d-flex justify-content-center m-2 home-title-container">
-        <h2>Acompanhe seus investimentos de <strong>forma automática</strong></h2 >
-        <h5>Você cadastra seus investimentos uma vez, e nós cuidamos do resto (todo dia!)</h5>
+        <div class="col-sm-12 d-flex justify-content-center">
+          <h3 class="text-center">Acompanhe seus investimentos de <strong>forma automática</strong></h3>
+
+        </div>
+        <div class="col-sm-12 d-flex justify-content-center">
+          <p class="text-center">Você cadastra seus investimentos uma vez, e nós cuidamos do resto (todo dia!)</p>
+        </div>
       </div>
 
       <div class="row d-flex justify-content-center m-2 home-mockup-container ">
-        <a href="{% url 'accounts:signup' %}">
-          <div class="buton-destaque">
-            Cadastra-se gratuitamente
-          </div>
-        </a>
+        <div class="col-sm-12 d-flex justify-content-center">
+          <a href="{% url 'accounts:signup' %}">
+            <div class="buton-destaque">
+              Testar gratuitamente
+            </div>
+          </a>
+        </div>
       </div>
 
       <div class="row d-flex justify-content-center m-4 home-mockup-container">
@@ -59,7 +69,7 @@
       </div>
 
       <div class="row d-flex justify-content-center m-5 home-title-container">
-        <h1><strong>Como funciona:</strong></h1>
+        <h3><strong>Como funciona:</strong></h3>
       </div>
 
       <div class="row d-flex justify-content-center m-2 home-title-container">
@@ -103,7 +113,7 @@
           <div class="row d-flex justify-content-center mt-3">
             <a href="{% url 'accounts:signup' %}">
               <div class="buton-destaque">
-                Cadastra-se gratuitamente
+                  Testar gratuitamente
               </div>
             </a>
           </div>
@@ -117,7 +127,7 @@
       <div class="row">
         <div class="col">
           <img src="{% static 'HaluuraApp/imgs/logo-icon-transp.png' %}" width="45" height="45" alt="">
-          Kapytalize by
+          Kapytalize,  por 
           <a href="https://www.linkedin.com/in/luiz-fernando-meira-filho-5267664a/">
             <span class="pink-destaque p-1"><strong>FernandoMeira</strong></span>
           </a>
