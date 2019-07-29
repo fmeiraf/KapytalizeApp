@@ -195,6 +195,78 @@ class Aplicacao_Custom_Queryset(models.QuerySet):
 
         return soma_tipo
 
+    def get_full_results(self, pk, aplicacoes,tiposAtivo ):
+        '''input: aplicaçoes(get_aplic_list), tiposAtivo (get_tipoAplicacao_list) / retorna: aplicsDetalhe, valoresTipo, valoresTotais'''
+
+        aplicsDetalhe = dict()
+        contagem_ativos = []
+        for aplic in aplicacoes:
+            infoAtivo = dict()
+            ##pegando ultimo preço
+            infoAtivo['ultimoPreco'] = PrecoAtivo.customObjects.get_last_prices_unity(aplic.ativo.pk)
+            infoAtivo['valorFinalAtualizado'] = infoAtivo['ultimoPreco'] * aplic.quantidade_aplicada
+            infoAtivo['ganhoNominalPreco'] = infoAtivo['valorFinalAtualizado'] - aplic.valor_aplicado
+            infoAtivo['ganhoPercPreco'] = round((((infoAtivo['valorFinalAtualizado'] / aplic.valor_aplicado) - 1)*100), 1)
+
+            ##pegando proventos
+            if aplic.ativo in contagem_ativos:
+                infoAtivo['proventos'] = 0
+                infoAtivo['ganhoNominalRendas'] = 0
+                infoAtivo['ganhoPercRendas'] = 0
+                infoAtivo['valorFinalAtualizadoRendas'] = infoAtivo['valorFinalAtualizado']
+            else:
+                proventosOficiais = Proventos.customObjects.get_proventos_detail_unity(aplic)
+                if proventosOficiais == {}:
+                    infoAtivo['proventos'] = 0
+                    infoAtivo['ganhoNominalRendas'] = infoAtivo['ganhoNominalPreco']
+                    infoAtivo['ganhoPercRendas'] = infoAtivo['ganhoPercPreco']
+                    infoAtivo['valorFinalAtualizadoRendas'] = infoAtivo['valorFinalAtualizado']
+                else:
+                    proventosPagos = [ dados['valor'] * aplic.quantidade_aplicada for cod,dados in proventosOficiais.items() ]
+                    infoAtivo['proventos'] = sum(proventosPagos)
+                    infoAtivo['ganhoNominalRendas'] = (infoAtivo['valorFinalAtualizado'] + infoAtivo['proventos']) - aplic.valor_aplicado
+                    infoAtivo['ganhoPercRendas'] = round(((((infoAtivo['valorFinalAtualizado'] + infoAtivo['proventos']) / aplic.valor_aplicado) -1)*100),1)
+                    infoAtivo['valorFinalAtualizadoRendas'] = infoAtivo['valorFinalAtualizado'] + infoAtivo['proventos']
+
+            contagem_ativos.append(aplic.ativo)
+
+            aplicsDetalhe[aplic] = infoAtivo
+
+        # Valor Aplicado + Ganho - por categoria
+        valoresTipo = dict()
+        for tipo in tiposAtivo:
+            valorAplicado = [aplic.valor_aplicado for aplic,dados in aplicsDetalhe.items() if aplic.ativo.grupo_ativo.desc_grupo==tipo]
+            valorAtualizado = [dados['valorFinalAtualizadoRendas'] for aplic,dados in aplicsDetalhe.items() if aplic.ativo.grupo_ativo.desc_grupo==tipo]
+            ganhoNominal = [dados['ganhoNominalPreco'] for aplic,dados in aplicsDetalhe.items() if aplic.ativo.grupo_ativo.desc_grupo==tipo]
+            provento = [dados['proventos'] for aplic,dados in aplicsDetalhe.items() if aplic.ativo.grupo_ativo.desc_grupo==tipo]
+            valoresTipo[tipo] = { 'valorAplicado': sum(valorAplicado),
+                                  'valorAtualizado': sum(valorAtualizado),
+                                  'proventos': sum(provento),
+                                  'ganhoNominal': sum(ganhoNominal),
+                                  'ganhoFinal': sum(valorAtualizado)-sum(valorAplicado),
+                                  'GanhoPerc': round(((sum(valorAtualizado)/sum(valorAplicado)-1)*100),1),}
+
+        # Valor Aplicado + Ganho - total Portfolio
+        valoresTotais = dict()
+        valoresTotaisAplicado = [value['valorAplicado'] for keys, value in valoresTipo.items()]
+        valoresTotaisAtualizado = [value['valorAtualizado'] for keys, value in valoresTipo.items()]
+        valoresTotaisGanhoNominal= [value['ganhoNominal'] for keys, value in valoresTipo.items()]
+        valoresTotaisProventos= [value['proventos'] for keys, value in valoresTipo.items()]
+        valoresTotaisGanhoFinal= [value['ganhoFinal'] for keys, value in valoresTipo.items()]
+
+
+        valoresTotais['valorAplicado'] = sum(valoresTotaisAplicado)
+        valoresTotais['valorAtualizado'] = sum(valoresTotaisAtualizado)
+        if valoresTotais['valorAplicado'] == 0 :
+            valoresTotais['GanhoPerc'] = 0
+        else:
+            valoresTotais['GanhoPerc'] = round((((valoresTotais['valorAtualizado'] / valoresTotais['valorAplicado']) - 1)*100),1)
+        valoresTotais['ganhoNominal'] = sum(valoresTotaisGanhoNominal)
+        valoresTotais['proventos'] = sum(valoresTotaisProventos)
+        valoresTotais['ganhoFinal'] = sum(valoresTotaisGanhoFinal)
+
+        return aplicsDetalhe, valoresTipo, valoresTotais
+
 
 class Aplicacao_Custom_Manager(models.Manager):
     def get_queryset(self):
@@ -223,6 +295,10 @@ class Aplicacao_Custom_Manager(models.Manager):
     def get_valor_byTipo(self,pk):
         '''Retorna dict com total aplicado por tipo de ativo no portfolio {tipo:[total quantidade, total valor]}'''
         return self.get_queryset().get_valor_byTipo(pk)
+
+    def get_full_results(self,pk, aplicacoes,tiposAtivo ):
+        '''input: aplicaçoes(get_aplic_list), tiposAtivo (get_tipoAplicacao_list) / retorna: aplicsDetalhe, valoresTipo, valoresTotais'''
+        return self.get_queryset().get_full_results(pk,aplicacoes,tiposAtivo)
 
 
 class Aplicacao(models.Model):
