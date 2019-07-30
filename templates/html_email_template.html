@@ -97,8 +97,8 @@
     <table border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background-color: #f6f6f6;">
       <tr>
         <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
-        <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
-          <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
+        <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 600px; padding: 10px; width: 580px;">
+          <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 600px; padding: 10px;">
 
             <!-- START CENTERED WHITE CONTAINER -->
             <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">This is preheader text. Some clients will show this text as a preview.</span>
@@ -109,7 +109,7 @@
                 <td class="wrapper" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px;">
                   <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
                     <tr>
-                      <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
+                      <td style="font-family: sans-serif; font-size: 13px; vertical-align: top;">
               <!-- CABEÇALHO -->
                         <div class="dark-container" style="background-color: #511771; border-radius:9px">
                           <table border="0" cellpadding="0" cellspacing="0" class="" style="border-collapse: separate;margin-bottom:15px; mso-table-lspace: 0pt;
@@ -117,10 +117,10 @@
                             <tbody>
                               <tr style="">
                                 <td colspan="4">
-                                  <h2 style="color:#fc6188; margin-left:5px;">Kapytalize.</h2>
+                                  <h2 style="color:#fc6188; margin-left:5px;">Kapytalize.  </h2>
                                 </td>
-                                <td align="right">
-                                  <p style="color:#ffffff; margin-right:5px;"><strong>27/07/2019</strong></p>
+                                <td colspan="2" align="right">
+                                  <p style="color:#ffffff;margin-left:4px; margin-right:auto;"><strong style="margin-right:auto;">27/07/2019</strong></p>
                                 </td>
                               </tr>
                             </tbody>
@@ -143,25 +143,26 @@
                         </p>
 
             <!-- RESUMO GERAL -->
-                        <div class="dark-container" style="background-color: #290a3a; border-radius:9px; width:85%; text-align: center; margin: auto;">
+                        <div class="dark-container" style="background-color: #290a3a; border-radius:9px; width:95%; text-align: center; margin: auto;">
                           <table border="0" cellpadding="0" cellspacing="0" class="" style="border-collapse: separate;margin-bottom:15px; mso-table-lspace: 0pt;
-                                                                                            mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;">
+                                                                                            mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;
+                                                                                            margin-left:5px;">
                             <tbody>
                               <tr style="">
-                                <td colspan="2">
-                                  <div class="round-gain" style="text-align: center; margin:10px 5px 10px 5px; ">
+                                <td colspan="3" style="">
+                                  <div class="round-gain" style="text-align: center; margin:5px 2px 5px 2px; margin-right:5px;">
                                     <h2 style="border: 5px solid #fb3769; text-align: center; border-radius:100px;
-                                               color:#ffffff; width: 50%; padding: 20px 10px 20px 10px; margin:auto">
-                                      {{dadosTotais.GanhoPerc}}%
+                                               color:#ffffff; width: 75%; padding: 7px 4px 7px px; margin:auto; text-size:12px;">
+                                      {{dadosTotais.GanhoPerc|floatformat:'0'}}%
                                     </h2>
                                   </div>
                                 </td>
-                                <td colspan="2" style="margin-right: 5px;">
+                                <td colspan="2" style="margin-right: 2px; margin-left:4px;">
                                   <table border="0" cellpadding="0" cellspacing="0" class="" style="border-collapse: separate;margin-bottom:15px; mso-table-lspace: 0pt;
-                                                                                                    mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;">
+                                                                                                    mso-table-rspace: 0pt; width: 100%; box-sizing: border-box; margin-left:4px;">
                                     <tbody>
                                       <tr style="">
-                                        <td style="color:#ffffff; margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; height:15px;">
+                                        <td style="color:#ffffff; margin-left: 0px; margin-right: 0px; margin-top: 0px; margin-bottom: 0px; padding: 0px 0px 0px 0px; height:15px;">
                                           <div style="width: 100%; height: 100%;">
                                             <p style="text-align: left;"> <strong>Valor Investido:</strong> {{dadosTotais.valorAplicado|floatformat:'0'}} </p>
                                           </div>
@@ -211,7 +212,7 @@
 
             <!-- INICIO BLOCO TIPO -->
                         {% if tipo == 'FII' %}
-                        <div class="light-container" style="background-color: #f6f6f6; border-radius:9px; width:70%; text-align: center; margin: auto;
+                        <div class="light-container" style="background-color: #f6f6f6; border-radius:9px; width:90%; text-align: center; margin: auto;
                                                             padding: 5px 5px 5px 5px;">
                           <table border="0" cellpadding="0" cellspacing="0" class="" style="border-collapse: separate; mso-table-lspace: 0pt;
                                                                                             mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;
@@ -220,7 +221,8 @@
                               <tr style="">
                                 <td style="margin: 5px 5px 5px 5px;">
                                   <table border="0" cellpadding="0" cellspacing="0" class="" style="border-collapse: separate;margin-bottom:15px; mso-table-lspace: 0pt;
-                                                                                                    mso-table-rspace: 0pt; width: 70%; box-sizing: border-box; margin:auto;
+                                                                                                    mso-table-rspace: 0pt; width: 60%; box-sizing: border-box; margin:auto;
+                                                                                                    min-width: 120px;
                                                                                                     ">
                                     <tbody>
                                       <tr >
@@ -235,8 +237,8 @@
                                         <td style="background-color: #38314e;">
                                           <div class="round-gain" style="text-align: center; margin:10px 5px 10px 5px; ">
                                             <h3 style="border: 5px solid #fb3769; text-align: center; border-radius:100px;
-                                                       color:#ffffff; width: 40%; padding: 5px 2px 5px 2px; margin:auto">
-                                              {{ dadoTipo.GanhoPerc }}%
+                                                       color:#ffffff; width: 60%; padding: 5px 2px 5px 2px; margin:auto">
+                                              {{ dadoTipo.GanhoPerc|floatformat:'0' }}%
                                             </h3>
                                           </div>
                                         </td>
@@ -246,14 +248,14 @@
                                 </td>
                               </tr>
                               <tr style="">
-                                <td>
+                                <td style="margin:auto;">
                                   <table border="0" cellpadding="0" cellspacing="0" class="" style="border-collapse: separate;margin-bottom:15px; mso-table-lspace: 0pt;
                                                                                                     mso-table-rspace: 0pt; width: 75%; box-sizing: border-box; margin:auto;
                                                                                                     padding-left:15px;">
                                     <tbody>
                                       <tr style="">
                                         <td style="color:#290a3a; margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; height:15px;">
-                                          <div style="width: 100%; height: 100%;">
+                                          <div style="width: 100%; height: 100%; margin:auto;">
                                             <p style="text-align: left;"> <strong>Valor Investido:</strong> {{dadoTipo.valorAplicado|floatformat:'0'}} </p>
                                           </div>
                                         </td>
@@ -305,19 +307,19 @@
                                                                                                       margin: 10px 2px 15px 2px">
                                       <thead>
                                         <tr>
-                                          <th style="font-size:13px;">Ativo</th>
-                                          <th style="font-size:13px;">Ganho Total R$</th>
-                                          <th style="font-size:13px;">Ganho Total %</th>
+                                          <th></th>
+                                          <th style="font-size:11px; margin:2px 2px 2px 2px;">Ativo </th>
+                                          <th style="font-size:11px; margin:2px 2px 2px 2px; ">Ganho Total R$  </th>
+                                          <th style="font-size:11px; margin:2px 2px 2px 2px;">Ganho Total % </th>
                                         </tr>
                                       </thead>
                                       <tbody>
-
-                                        <tr style="">
                                         {% for aplic, dadosAplic in aplicacoes.items %}
                                           {% if aplic.ativo.grupo_ativo.desc_grupo == 'FII' %}
+                                        <tr style="">
                                             <div style="margin-top:10px;">
                                               <td style="font-size:12px; margin:2px 2px 2px 2px;">{{aplic.ativo.sigla_ativo}}</td>
-                                              <td style="font-size:12px;  ">
+                                              <td style="font-size:12px;">
                                                 <div style="margin:auto; background-color: #641b44; width:60%; border-radius:80px;
                                                             padding:5px 2px 5px 2px; color:#ffffff;">
                                                   {{ dadosAplic.ganhoNominalRendas|floatformat:'0' }}
@@ -330,9 +332,9 @@
                                                 </div>
                                               </td>
                                             </div>
-                                          {% endif %}
-                                        {% endfor %}
                                         </tr>
+                                        {% endif %}
+                                      {% endfor %}
                                       </tbody>
                                     </table>
 
@@ -344,7 +346,7 @@
                         {% endif %}
                         <!-- INICIO BLOCO TIPO -->
                         {% if tipo == 'Ações' %}
-                                    <div class="light-container" style="background-color: #f6f6f6; border-radius:9px; width:70%; text-align: center; margin: auto;
+                                    <div class="light-container" style="background-color: #f6f6f6; border-radius:9px; width:90%; text-align: center; margin: auto;
                                                                         padding: 5px 5px 5px 5px; margin-top: 15px; margin-bottom: 15px;">
                                       <table border="0" cellpadding="0" cellspacing="0" class="" style="border-collapse: separate; mso-table-lspace: 0pt;
                                                                                                         mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;
@@ -353,7 +355,8 @@
                                           <tr style="">
                                             <td style="margin: 5px 5px 5px 5px;">
                                               <table border="0" cellpadding="0" cellspacing="0" class="" style="border-collapse: separate;margin-bottom:15px; mso-table-lspace: 0pt;
-                                                                                                                mso-table-rspace: 0pt; width: 70%; box-sizing: border-box; margin:auto;
+                                                                                                                mso-table-rspace: 0pt; width: 60%; box-sizing: border-box; margin:auto;
+                                                                                                                min-width: 120px;
                                                                                                                 ">
                                                 <tbody>
                                                   <tr >
@@ -368,8 +371,8 @@
                                                     <td style="background-color: #38314e;">
                                                       <div class="round-gain" style="text-align: center; margin:10px 5px 10px 5px; ">
                                                         <h3 style="border: 5px solid #fb3769; text-align: center; border-radius:100px;
-                                                                   color:#ffffff; width: 40%; padding: 5px 2px 5px 2px; margin:auto">
-                                                          {{ dadoTipo.GanhoPerc }}%
+                                                                   color:#ffffff; width: 60%; padding: 5px 2px 5px 2px; margin:auto">
+                                                          {{ dadoTipo.GanhoPerc|floatformat:'0' }}%
                                                         </h3>
                                                       </div>
                                                     </td>
@@ -438,9 +441,10 @@
                                                                                                                   margin: 10px 2px 15px 2px">
                                                   <thead>
                                                     <tr>
-                                                      <th style="font-size:13px;">Ativo</th>
-                                                      <th style="font-size:13px;">Ganho Total R$</th>
-                                                      <th style="font-size:13px;">Ganho Total %</th>
+                                                      <th></th>
+                                                      <th style="font-size:11px; margin:2px 2px 2px 2px;">Ativo </th>
+                                                      <th style="font-size:11px; margin:2px 2px 2px 2px;">Ganho Total R$  </th>
+                                                      <th style="font-size:11px; margin:2px 2px 2px 2px;">Ganho Total %  </th>
                                                     </tr>
                                                   </thead>
                                                   <tbody>
@@ -477,7 +481,7 @@
                                     {% endif %}
                                     <!-- INICIO BLOCO TIPO -->
                                     {% if tipo == 'Tesouro Direto' %}
-                                                <div class="light-container" style="background-color: #f6f6f6; border-radius:9px; width:70%; text-align: center; margin: auto;
+                                                <div class="light-container" style="background-color: #f6f6f6; border-radius:9px; width:90%; text-align: center; margin: auto;
                                                                                     padding: 5px 5px 5px 5px; margin-top: 15px; margin-bottom: 15px;">
                                                   <table border="0" cellpadding="0" cellspacing="0" class="" style="border-collapse: separate; mso-table-lspace: 0pt;
                                                                                                                     mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;
@@ -486,7 +490,8 @@
                                                       <tr style="">
                                                         <td style="margin: 5px 5px 5px 5px;">
                                                           <table border="0" cellpadding="0" cellspacing="0" class="" style="border-collapse: separate;margin-bottom:15px; mso-table-lspace: 0pt;
-                                                                                                                            mso-table-rspace: 0pt; width: 70%; box-sizing: border-box; margin:auto;
+                                                                                                                            mso-table-rspace: 0pt; width: 60%; box-sizing: border-box; margin:auto;
+                                                                                                                            min-width: 120px;
                                                                                                                             ">
                                                             <tbody>
                                                               <tr >
@@ -501,8 +506,8 @@
                                                                 <td style="background-color: #38314e;">
                                                                   <div class="round-gain" style="text-align: center; margin:10px 5px 10px 5px; ">
                                                                     <h3 style="border: 5px solid #fb3769; text-align: center; border-radius:100px;
-                                                                               color:#ffffff; width: 40%; padding: 5px 2px 5px 2px; margin:auto">
-                                                                      {{ dadoTipo.GanhoPerc }}%
+                                                                               color:#ffffff; width: 60%; padding: 5px 2px 5px 2px; margin:auto">
+                                                                      {{ dadoTipo.GanhoPerc|floatformat:'0' }}%
                                                                     </h3>
                                                                   </div>
                                                                 </td>
@@ -571,9 +576,10 @@
                                                                                                                               margin: 10px 2px 15px 2px">
                                                               <thead>
                                                                 <tr>
-                                                                  <th style="font-size:13px;">Ativo</th>
-                                                                  <th style="font-size:13px;">Ganho Total R$</th>
-                                                                  <th style="font-size:13px;">Ganho Total %</th>
+                                                                  <th></th>
+                                                                  <th style="font-size:11px; margin:2px 2px 2px 2px;">Ativo </th>
+                                                                  <th style="font-size:11px; font-size:11px; margin:2px 2px 2px 2px;">Ganho Total R$  </th>
+                                                                  <th style="font-size:11px; font-size:11px; margin:2px 2px 2px 2px;">Ganho Total %  </th>
                                                                 </tr>
                                                               </thead>
                                                               <tbody>
@@ -607,7 +613,7 @@
                                                 </div>
                                             {% endif %}
                         {% endfor %}
-                        <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Good luck! Hope it works.</p>
+                        <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;"><br> Fim. <br><br> Até Amanhã!</p>
 
                       </td>
                     </tr>
@@ -624,7 +630,7 @@
                 <tr>
                   <td class="content-block" style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; font-size: 12px; color: #999999; text-align: center;">
                     <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Kapytalize, Ribeirão Preto-SP - 2019</span>
-                    <br> Don't like these emails? <a href="http://i.imgur.com/CScmqnj.gif" style="text-decoration: underline; color: #999999; font-size: 12px; text-align: center;">Unsubscribe</a>.
+                    <br> Não quer mais receber esses e-mails? <a href="" style="text-decoration: underline; color: #999999; font-size: 12px; text-align: center;">Unsubscribe</a>.
                   </td>
                 </tr>
               </table>
