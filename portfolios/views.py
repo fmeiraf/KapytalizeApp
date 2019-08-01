@@ -8,6 +8,7 @@ from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.db.models import Q
+from django.http import Http404
 
 import datetime
 
@@ -126,47 +127,56 @@ class AtivoAutoComplete(LoginRequiredMixin, autocomplete.Select2QuerySetView):
 @login_required
 def manage_portfolios(request, pk):
     portfolio = models.Portfolio.objects.get(pk=pk)
-    PortfolioInlineFormset = inlineformset_factory( models.Portfolio, models.Aplicacao, fk_name='portfolio',
-                                                    form= forms.AplicacaoCreationForm,
-                                                    extra=1, can_delete=True )
-    if request.method =='POST':
-        formset = PortfolioInlineFormset(request.POST, request.FILES, instance=portfolio)
-        if formset.is_valid():
-            formset.save()
-            return HttpResponseRedirect(portfolio.get_absolute_url())
+    if request.user != portfolio.user:
+        raise Http404('Ops! Essa Página não existe.  =/')
     else:
-        formset = PortfolioInlineFormset(instance=portfolio)
-    return render(request, 'portfolios/manage_portfolio.html', {'formset': formset,
-                                                                'portfolio':portfolio})
+        PortfolioInlineFormset = inlineformset_factory( models.Portfolio, models.Aplicacao, fk_name='portfolio',
+                                                        form= forms.AplicacaoCreationForm,
+                                                        extra=1, can_delete=True )
+        if request.method =='POST':
+            formset = PortfolioInlineFormset(request.POST, request.FILES, instance=portfolio)
+            if formset.is_valid():
+                formset.save()
+                return HttpResponseRedirect(portfolio.get_absolute_url())
+        else:
+            formset = PortfolioInlineFormset(instance=portfolio)
+        return render(request, 'portfolios/manage_portfolio.html', {'formset': formset,
+                                                                    'portfolio':portfolio})
 
 # --------------------- Portfolio visualization -----------------------------------
 
 @login_required
 def rentabilidade_portofolio(request, pk):
     portfolio = get_object_or_404(models.Portfolio, pk=pk)
-    aplicacoes = models.Aplicacao.objects.filter(portfolio=portfolio.pk)
+    if request.user != portfolio.user:
+        raise Http404('Ops! Essa Página não existe.  =/')
+    else:
+        aplicacoes = models.Aplicacao.objects.filter(portfolio=portfolio.pk)
 
-    aplica_preco = dict([(aplic, models.PrecoAtivo.objects.filter(cod_ativo=aplic.ativo.pk).last()) for aplic in aplicacoes])
+        aplica_preco = dict([(aplic, models.PrecoAtivo.objects.filter(cod_ativo=aplic.ativo.pk).last()) for aplic in aplicacoes])
 
-    sectionChecker = [aplic.ativo.grupo_ativo.desc_grupo for aplic in aplicacoes]
+        sectionChecker = [aplic.ativo.grupo_ativo.desc_grupo for aplic in aplicacoes]
 
 
 
-    return render(request, 'portfolios/rentabilidade_portfolio.html', { 'portfolio' : portfolio,
-                                                                        'aplicacoes' : aplica_preco,
-                                                                        'sections' : sectionChecker} )
+        return render(request, 'portfolios/rentabilidade_portfolio.html', { 'portfolio' : portfolio,
+                                                                            'aplicacoes' : aplica_preco,
+                                                                            'sections' : sectionChecker} )
 
 @login_required
 def portfolio_resumo(request, pk):
     portfolio = get_object_or_404(models.Portfolio, pk=pk)
-    aplicacoes = models.Aplicacao.customObjects.get_aplic_list(portfolio.pk)
-    tiposAtivo = models.Aplicacao.customObjects.get_tipoAplicacao_list(portfolio.pk)
+    if request.user != portfolio.user:
+        raise Http404('Ops! Essa Página não existe.  =/')
+    else:
+        aplicacoes = models.Aplicacao.customObjects.get_aplic_list(portfolio.pk)
+        tiposAtivo = models.Aplicacao.customObjects.get_tipoAplicacao_list(portfolio.pk)
 
-    aplicsDetalhe, valoresTipo, valoresTotais = models.Aplicacao.customObjects.get_full_results(portfolio.pk, aplicacoes, tiposAtivo)
+        aplicsDetalhe, valoresTipo, valoresTotais = models.Aplicacao.customObjects.get_full_results(portfolio.pk, aplicacoes, tiposAtivo)
 
 
-    return render(request, 'portfolios/resumo.html', { 'portfolio' : portfolio,
-                                                       'tipoAtivo': tiposAtivo,
-                                                       'aplicacoes' : aplicsDetalhe,
-                                                       'dadosTipo' : valoresTipo,
-                                                       'dadosTotais': valoresTotais} )
+        return render(request, 'portfolios/resumo.html', { 'portfolio' : portfolio,
+                                                           'tipoAtivo': tiposAtivo,
+                                                           'aplicacoes' : aplicsDetalhe,
+                                                           'dadosTipo' : valoresTipo,
+                                                           'dadosTotais': valoresTotais} )
