@@ -22,8 +22,8 @@
 
   <body class="body-logoff">
 
-    <nav class="navbar navbar-expand-lg font-poppins mb-4" role="navigation" id="navbar">
-      <div class=" container d-flex align-items-center">
+    <nav class="navbar font-poppins mb-4" role="navigation" id="navbar">
+      <div class="container d-flex align-items-center">
         <div class="container d-flex align-items-center">
           <a class="navbar-brand mynav" href="{% url 'home' %}">
               <img src="{% static 'HaluuraApp/imgs/Logo-Brand-Transp.png' %}" class=""  alt="" id="logo-brand">
@@ -42,30 +42,32 @@
 
     </nav>
 
-    <div class="container">
+    <div class="custom-container">
 
       <div class="row d-flex justify-content-center m-2 home-title-container">
-        <div class="col-sm-12 d-flex justify-content-center">
+        <div class="col-sm-12 d-block justify-content-center">
           <h3 class="text-center">Acompanhe seus investimentos de <strong>forma automática</strong></h3>
 
         </div>
-        <div class="col-sm-12 d-flex justify-content-center">
-          <p class="text-center">Você cadastra seus investimentos uma vez, e nós cuidamos do resto (todo dia!)</p>
+        <div class="col-sm-12 d-block justify-content-center">
+          <p class="h5 text-center">Você cadastra seus investimentos uma vez, e nós cuidamos do resto (todo dia!)</p>
         </div>
       </div>
 
       <div class="row d-flex justify-content-center m-2 home-mockup-container ">
-        <div class="col-sm-12 d-flex justify-content-center">
-          <a href="{% url 'accounts:signup' %}">
-            <div class="buton-destaque">
-              Testar gratuitamente
+        <div class="col-sm-12 d-block justify-content-center">
+          <a href="{% url 'accounts:signup' %}" class="d-flex justify-content-center">
+            <div class="buton-destaque d-flex justify-content-center w-50">
+              <h4 class="text-center p-0 m-0">Testar gratuitamente</h4>
             </div>
           </a>
         </div>
       </div>
 
-      <div class="row d-flex justify-content-center m-4 home-mockup-container">
-        <img src="{% static 'HaluuraApp/imgs/pcMockFrontPagev2.png' %}" class="" alt="">
+      <div class="row d-flex justify-content-center m-2 home-mockup-container">
+        <div class="col-sm-12 d-flex justify-content-center">
+          <img src="{% static 'HaluuraApp/imgs/pcMockFrontPagev2.png' %}" class="mock-image" alt="">
+        </div>
       </div>
 
       <div class="row d-flex justify-content-center m-5 home-title-container">
@@ -127,7 +129,7 @@
       <div class="row">
         <div class="col">
           <img src="{% static 'HaluuraApp/imgs/logo-icon-transp.png' %}" width="45" height="45" alt="">
-          Kapytalize,  por 
+          Kapytalize,  por
           <a href="https://www.linkedin.com/in/luiz-fernando-meira-filho-5267664a/">
             <span class="pink-destaque p-1"><strong>FernandoMeira</strong></span>
           </a>
