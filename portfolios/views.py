@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, DeleteView
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -25,13 +25,20 @@ class PortfolioCreate(LoginRequiredMixin, CreateView):
     model = models.Portfolio
     template_name = 'portfolios/portfolio_create_form.html'
     form_class = forms.PortfolioCreationForm
-    success_url = '/'
+
+    def get_form_kwargs(self):
+        kwargs = super(PortfolioCreate, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('portfolios:manage',args=(self.object.pk,))
 
 class PortfolioListView(LoginRequiredMixin, ListView):
     model = models.Portfolio
@@ -45,30 +52,20 @@ class PortfolioListView(LoginRequiredMixin, ListView):
         data = super().get_context_data(**kwargs)
 
         user_portfolios = models.Portfolio.objects.filter(user=self.request.user).order_by('-data_criacao')
-        aplicacao_byTipo_func = models.Aplicacao.customObjects.get_valor_byTipo
+        tem_portfolio = list(user_portfolios)
 
-        aplica_preco = dict([(portfolio, aplicacao_byTipo_func(pk=portfolio.pk)) for portfolio in user_portfolios])
+        portfolio_dados =  dict()
 
-        valorTotalAplicado = 0
-        valorTotalAtualizado = 0
-        for port, aplics in aplica_preco.items():
-            lista_ativos = models.Aplicacao.customObjects.get_ativos_detail(port.pk)
-            for ativo, params in lista_ativos.items():
-                valorTotalAplicado += params['valor_aplicado']
-                ultimoPreco = models.PrecoAtivo.customObjects.get_last_prices_unity(ativo.cod_ativo)
-                valorTotalAtualizado += float(params['quantidade']) * ultimoPreco
+        for portfolio in user_portfolios:
+            aplicacoes = models.Aplicacao.customObjects.get_aplic_list(portfolio.pk)
+            tiposAtivo = models.Aplicacao.customObjects.get_tipoAplicacao_list(portfolio.pk)
 
-        if valorTotalAplicado == 0 :
-            ganho = 0
-        else:
-            ganho = round(((valorTotalAtualizado/valorTotalAplicado)-1),2)*100
+            aplicsDetalhe, valoresTipo, valoresTotais = models.Aplicacao.customObjects.get_full_results(portfolio.pk, aplicacoes, tiposAtivo)
 
-        data['portfolios_completo'] = aplica_preco
-        data['portfolios_exist'] = bool(aplica_preco)
-        data['valorTotalAplicado'] = round(valorTotalAplicado)
-        data['valorTotalAtualizado'] = round(valorTotalAtualizado)
-        data['ganho'] = ganho
+            portfolio_dados[portfolio] = valoresTotais
 
+        data['sem_portfolio'] = not bool(tem_portfolio)
+        data['portfolio_dados'] = portfolio_dados
 
 
         return data
@@ -137,7 +134,7 @@ def manage_portfolios(request, pk):
             formset = PortfolioInlineFormset(request.POST, request.FILES, instance=portfolio)
             if formset.is_valid():
                 formset.save()
-                return HttpResponseRedirect(portfolio.get_absolute_url())
+                return redirect('portfolios:list')
         else:
             formset = PortfolioInlineFormset(instance=portfolio)
         return render(request, 'portfolios/manage_portfolio.html', {'formset': formset,

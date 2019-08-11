@@ -50,7 +50,7 @@
         <ul class="navbar-nav ml-auto d-lg-flex align-items-center">
 
           <li class="nav-item ml-auto align-middle">
-            <a class="nav-link a-navbar d-lg-flex align-items-center" href="{% url 'accounts:logout' %}">
+            <a class="nav-link a-navbar d-lg-flex align-items-center" href="#">
               <img src="{% static 'HaluuraApp/imgs/AccountOptions.png' %}" class="p-1" width="35" height="35" alt="Conta">
               <span>Sua Conta</span>
             </a>
@@ -75,24 +75,27 @@
 
     {% block pre-content %}{% endblock pre-content %}
 
-    <div class="container">
+    <div class="container" id="main">
       {% block content %}
       {% endblock %}
     </div>
 
-    <div class="footer p-2 mt-5">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <img src="{% static 'HaluuraApp/imgs/logo-icon-transp.png' %}" width="45" height="45" alt="">
-            Kapytalize by
-            <a href="https://www.linkedin.com/in/luiz-fernando-meira-filho-5267664a/">
-              <span class="pink-destaque p-1"><strong>FernandoMeira</strong></span>
-            </a>
+    <footer>
+      <div class="footer p-2 mt-5">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <img src="{% static 'HaluuraApp/imgs/logo-icon-transp.png' %}" width="45" height="45" alt="">
+              Kapytalize by
+              <a href="https://www.linkedin.com/in/luiz-fernando-meira-filho-5267664a/">
+                <span class="pink-destaque p-1"><strong>FernandoMeira</strong></span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </footer>
 
   </body>
+
 </html>

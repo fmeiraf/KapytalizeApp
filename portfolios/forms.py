@@ -1,8 +1,10 @@
 from django.forms import ModelForm
+from django.core.exceptions import ValidationError
 from django import forms
 from . import models
 import pdb
 from dal import autocomplete
+
 
 class DateInput (forms.DateInput):
     input_type='date'
@@ -11,6 +13,17 @@ class PortfolioCreationForm(ModelForm):
     class Meta:
         model = models.Portfolio
         fields = ['nome']
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(PortfolioCreationForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super(PortfolioCreationForm, self).clean()
+        user_portfolios = [port.nome for port in models.Portfolio.objects.filter(user=self.request.user)]
+        if cleaned_data.get('nome') in user_portfolios:
+            raise ValidationError("Esse nome de Portfolio já existe. Por favor, escolha um outro nome.")
+
 
 class AplicacaoCreationForm(ModelForm):
     tipo_ativo = forms.ModelChoiceField(queryset=models.GrupoAtivo.objects.all())

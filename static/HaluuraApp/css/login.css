@@ -41,8 +41,8 @@ body {
 }
 
 .logo {
-  width: 90%;
-  height: 90%;
+  width: 60%;
+  height: 60%;
   margin-bottom: 30px;
 }
 .form-control {
@@ -74,6 +74,10 @@ body {
   box-sizing: border-box;
   border-top: 0.5px solid #E1E3E4;
   border-bottom: 0.5px solid #E1E3E4;
+}
+
+div.help-block{
+  color: #fc1953 !important;
 }
 
 /* Media queries */

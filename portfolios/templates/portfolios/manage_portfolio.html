@@ -20,21 +20,24 @@
 <div class="container">
 
       <div class="manage-top-header m-3">
-        <div class="row d-lg-flex align-items-center">
-          <div class="col-7">
-            <h1 id="font-dark"> Portfolio: {{ portfolio.nome }} </h1>
-          </div>
-          <div class="col-5">
-            <p class="m-0 p-0" id="font-darkish">Criado em: {{portfolio.data_criacao}}</p>
+        <div class="row d-lg-flex align-items-center ">
+          <div class="col-12 justify-content-center col-auto text-center">
+            <h2 id="font-dark"> Preencha aqui com os ativos de seu portfolio </h2>
           </div>
         </div>
       </div>
 
       <div class="container">
         <form method="post" id="AplicacaoCreateForm" >
+          <div class="container">
+            <div class="row d-lg-flex justify-content-end">
+              <div class="col-4 col-auto d-lg-flex justify-content-end">
+                <input type="submit" class="btn btn-info btn-lg active" value="Salvar Alterações">
+              </div>
+            </div>
+          </div>
           {% csrf_token %}
           {{formset.management_form}}
-
             <div class="container m-2" id='{{formset.prefix}}-container'>
                 <div class="row">
                   {% for form in formset %}
@@ -84,9 +87,16 @@
                   </div>
                 </div>
               </div>
-            <div class="bottomButtons">
-              <input type="submit" class="btn btn-success" value="Save">
-            </div>
+
+              <!-- <div class="container">
+                <div class="row d-lg-flex justify-content-end">
+                  <div class="col-4 col-auto d-lg-flex justify-content-end">
+                    <input type="submit" class="btn btn-info btn-lg active" value="Salvar Alterações">
+                  </div>
+                </div>
+              </div> -->
+
+
         </form>
     </div>
 </div>

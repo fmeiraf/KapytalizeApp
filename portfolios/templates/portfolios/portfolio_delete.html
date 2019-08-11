@@ -2,14 +2,15 @@
 {% load bootstrap3 %}
 
 {% block content %}
-  <div class="jumbotron">
+  <div class="container content-section mt-3 p-5">
 
-    <form method="post">{% csrf_token %}
-    <p>Você quer mesmo deletar o portfolio "{{ portfolios.nome }}"?</p>
-    <input type="submit" value="Confirm">
-</form>
+    <div class="alert alert-danger" role="alert">
+      <form method="post">{% csrf_token %}
+        <p>Você quer mesmo deletar o portfolio "{{ portfolios.nome }}"?</p>
+        <input type="submit" class="btn btn-danger" value="Excluir Portfolio">
+      </form>
+    </div>
 
   </div>
-
 
 {% endblock content %}

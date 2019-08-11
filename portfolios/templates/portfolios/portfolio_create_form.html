@@ -2,24 +2,29 @@
 {% load bootstrap3 %}
 
 {% block extranav %}
-  <nav class="navbar navbar-default navbar-expand-lg navbar-secondary font-poppins" role="navigation" id="navbar-secondary">
-    <div class="container">
-      <ul class="navbar-nav nav-center">
-          <li class="nav-item ml-3 mr-3"> <a class="nav-link" href="{% url 'portfolios:list' %}">Seus Portfolios</a></li>
-          <li class="nav-item ml-3 mr-3 active"> <a class="nav-link" href="{% url 'portfolios:create' %}">Criar Novo</a></li>
-          <li class="nav-item ml-3 mr-3"> <a class="nav-link" href="{% url 'portfolios:list' %}">Resumo</a></li>
-      </ul>
+<nav class="navbar navbar-default navbar-expand-lg navbar-secondary mb-0" role="navigation" id="navbar-secondary">
+  <div class="container d-lg-flex justify-content-center">
+    <div class="d-lg-flex justify-content-end">
+      <div class="col-12 col-auto d-lg-flex justify-content-center">
+        <ul class="navbar-nav nav-center">
+            <li class="nav-item ml-3 mr-3"> <a class="nav-link" href="{% url 'portfolios:list' %}">Seus Portfolios</a></li>
+            <li class="nav-item ml-3 mr-3 active"> <a class="nav-link" href="{% url 'portfolios:create' %}">Criar Novo</a></li>
+            <li class="nav-item ml-3 mr-3"> <a class="nav-link" href="{% url 'portfolios:list' %}">Resumo</a></li>
+        </ul>
+      </div>
     </div>
-  </nav>
+  </div>
+</nav>
 {% endblock extranav %}
 
 {% block content %}
-
+<div class="container content-section mt-3 p-5">
   <form method="post" >
     {% csrf_token %}
 
     {% bootstrap_form form %}
-    <input type="submit" class="btn btn-default" value="Create">
+    <input type="submit" class="btn btn-lg btn-primary " value="Criar Portfolio">
   </form>
+</div>
 
 {% endblock content %}

@@ -8,9 +8,6 @@
 {% endblock %}
 
 {% block content %}
-  <div lass="container">
-
-
 
     <div class="container-fluid">
       <div class="row resumo-header shadow-lg m-3">
@@ -111,25 +108,24 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr class="text-center" id="table-body-custom">
-                        {% for aplic, dadosAplic in aplicacoes.items %}
-                          {% if aplic.ativo.grupo_ativo.desc_grupo == tipo %}
-                            {% if tipo == 'Tesouro Direto' %}
-                            <th scope="row">{{aplic.ativo.desc_ativo}}</th>
-                            {% else %}
-                            <th scope="row">{{aplic.ativo.sigla_ativo}}</th>
-                            {% endif %}
-                            <td>{{aplic.data_aplicacao|date:'M Y'}}</td>
-                            <td>{{aplic.preco_entrada|floatformat:'2'}}</td>
-                            <td>{{dadosAplic.ultimoPreco|floatformat:'2'}}</td>
-                            <td>{{aplic.valor_aplicado}}</td>
-                            <td>{{dadosAplic.ganhoPercPreco}}%</td>
-                            <td>{{dadosAplic.proventos|floatformat:'0'}}</td>
-                            <td>{{dadosAplic.ganhoPercRendas}}%</td>
-                          {% endif %}
-                        {% endfor %}
-                      </tr>
-                      </tr>
+                      {% for aplic, dadosAplic in aplicacoes.items %}
+                        {% if aplic.ativo.grupo_ativo.desc_grupo == tipo %}
+                          <tr class="text-center" id="table-body-custom">
+                                {% if tipo == 'Tesouro Direto' %}
+                                <th scope="row">{{aplic.ativo.desc_ativo}}</th>
+                                {% else %}
+                                <th scope="row">{{aplic.ativo.sigla_ativo}}</th>
+                                {% endif %}
+                                <td>{{aplic.data_aplicacao|date:'M Y'}}</td>
+                                <td>{{aplic.preco_entrada|floatformat:'2'}}</td>
+                                <td>{{dadosAplic.ultimoPreco|floatformat:'2'}}</td>
+                                <td>{{aplic.valor_aplicado}}</td>
+                                <td>{{dadosAplic.ganhoPercPreco}}%</td>
+                                <td>{{dadosAplic.proventos|floatformat:'0'}}</td>
+                                <td>{{dadosAplic.ganhoPercRendas}}%</td>
+                          </tr>
+                        {% endif %}
+                      {% endfor %}
                     </tbody>
                   </table>
                 </div>

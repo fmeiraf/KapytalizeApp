@@ -148,6 +148,9 @@ class Portfolio (models.Model):
     def __str__(self):
         return '{}_{}'.format(self.nome, str(self.user))
 
+    class Meta:
+        unique_together = ('nome', 'user')
+
 class Aplicacao_Custom_Queryset(models.QuerySet):
     def get_tipoAplicacao_list(self, pk):
         '''Retorna uma lista com os tipos de ativos no portfolio'''

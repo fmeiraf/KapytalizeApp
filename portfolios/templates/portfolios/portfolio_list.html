@@ -2,22 +2,81 @@
 {% load staticfiles %}
 {% load bootstrap3 %}
 
+{% block extrahead %}
+  <script type="text/javascript">
+
+  </script>
+{% endblock extrahead %}
+
 {% block extranav %}
   <nav class="navbar navbar-default navbar-expand-lg navbar-secondary mb-0" role="navigation" id="navbar-secondary">
-    <div class="container">
-      <ul class="navbar-nav nav-center">
-          <li class="nav-item ml-3 mr-3 active"> <a class="nav-link" href="{% url 'portfolios:list' %}">Seus Portfolios</a></li>
-          <li class="nav-item ml-3 mr-3"> <a class="nav-link" href="{% url 'portfolios:create' %}">Criar Novo</a></li>
-          <li class="nav-item ml-3 mr-3"> <a class="nav-link" href="{% url 'portfolios:list' %}">Resumo</a></li>
-      </ul>
+    <div class="container d-lg-flex justify-content-center">
+      <div class="d-lg-flex justify-content-end">
+        <div class="col-12 col-auto d-lg-flex justify-content-center">
+          <ul class="navbar-nav nav-center">
+              <li class="nav-item ml-3 mr-3 active"> <a class="nav-link" href="{% url 'portfolios:list' %}">Seus Portfolios</a></li>
+              <li class="nav-item ml-3 mr-3"> <a class="nav-link" href="{% url 'portfolios:create' %}">Criar Novo</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </nav>
 {% endblock extranav %}
 
 {% block pre-content %}
+
+<!-- Modal -->
+<div class="modal fade" id="PortfolioHelpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-show="{{sem_portfolio|lower}}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title strong-purple" id="exampleModalLabel">Rastreie seus investimentos diariamente em 3 passos:</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <p id="font-small">
+          <strong>Primeiro Passo:</strong>
+          Cadastre um Portfolio. Portfolio é o nome para o agrupamento
+          dos seus investimentos (Tesouro Direto, Ações, CDBs, etc).
+        </p>
+
+        <p id="font-small">
+          <strong>Segundo Passo:</strong>
+          Edite seu Portfolio incluindo todos os investimentos que você
+          quer acompanhar. <br>
+          <small>* Verifique na sua corretora suas notas de corretagem
+          para inserir os valores corretos de quando você adquiriu seus ativos.</small>
+        </p>
+
+        <p id="font-small">
+          <strong>Terceiro Passo:</strong>
+          Agora você receberá e-mail todos os dias com o desempenho das suas aplicações.
+          Além de tudo você pode acessar essa área de usuário para acessar detalhamentos
+          exclusivos sobre o andamento do seus investimentos.
+        </p>
+
+        <p id="font-small">
+          <strong>Aproveite!</strong><br>
+          Espero que você goste :) <br><br>
+          <small><i>Fernando, criador do Kapytalize.</i></small>
+        </p>
+
+
+      </div>
+      <div class="modal-footer">
+        <a id="modalPurpleBtn" class="buton-purple" href="{% url 'portfolios:create' %}">Criar Portfolio</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
   <div class="pre-content-body p-4 mb-2">
     <div class="container">
-      <div class="row d-lg-flex align-items-center">
+      <div class="row d-lg-flex justify-content-center">
         <div class="col-6">
           <h1 id="font-dark">Bem vindo, {{user}}!</h1> <br>
           <p id="font-darkish">Aqui estão todos os portfolios que você já cadastrou,
@@ -25,11 +84,13 @@
         </div>
         <div class="col-6">
           <div class="info-card p-3">
-              <div class="row d-lg-flex align-items-center">
+              <div class="row d-lg-flex justify-content-center">
                 <div class="col-1">
-                  <img src="{% static 'HaluuraApp/imgs/interrogation.png' %}" width="30" height="30" alt="">
+                  <button type="button" class="btn btn-link m-0 p-0 ml-auto" data-toggle="modal" data-target="#PortfolioHelpModal">
+                    <img src="{% static 'HaluuraApp/imgs/interrogation.png' %}" width="30" height="30" alt="">
+                  </button>
                 </div>
-                <div class="col-11">
+                <div class="col-11 no-gutters">
                   <h5>O que são 'Portfolios' ?</h5>
                 </div>
               </div>
@@ -44,7 +105,7 @@
              <div class="row">
                <div class="col">
                  <a href="{% url 'portfolios:create' %}">
-                   Criar Novo Portfolio >
+                   <strong>Criar Novo Portfolio > </strong>
                  </a>
                </div>
              </div>
@@ -60,18 +121,25 @@
 {% block content %}
 
 <div class="container content-section">
-  {% if not portfolios_exist %}
+  {% if sem_portfolio %}
     <div class="row d-lg-flex justify-content-center m-4">
-      <div class="alert alert-danger m-5 d-lg-flex justify-content-center" role="alert" >
+      <div class="m-5 d-lg-flex justify-content-center" role="alert" >
         <a href="{% url 'portfolios:create' %}">
-          <h2 id="font-dark"> {{user}}, tudo começa criando um portfolio, então..  </h2>
-          <p id="font-darkish"> Criar portfolio! </p>
+          <div class="">
+            <h2 id="font-dark"> {{user}}, tudo começa criando um portfolio, então..  </h2>
+          </div>
+          <div class="d-lg-flex justify-content-center">
+            <h4 id="strong-purple" class="buton-purple text-center"> Criar portfolio! </h4>
+          </div>
+
         </a>
       </div>
     </div>
     {% else %}
-      {% for portfolio, valorByTipo in portfolios_completo.items  %}
-        <div class="row">
+
+        <div class="row d-lg-flex justify-content-start">
+          {% for portfolio, attribs in portfolio_dados.items  %}
+          <div class="col">
             <div class="card portfolio-card m-3" style="width: 18rem;">
                 <div class="card-top p-2">
                   <div class="container">
@@ -83,30 +151,33 @@
                       </div>
                       <div class="col">
                         <div class="card-top-frame d-lg-flex align-items-center p-2 m-1">
-                          <h1>{{ ganho|floatformat:'0' }}%</h1>
+                          <h1>{{ attribs.GanhoPerc|floatformat:'0' }}%</h1>
                         </div>
                       </div>
                       <div class="col">
                       </div>
                     </div>
                     <div class="row card-top-legend pt-1 m-0 text-right">
-                      <p class="p-0 m-0" id="light-card">Valor Inicial: {{valorTotalAplicado}}</p>
-                      <p class="p-0 m-0" id="light-card">Valor Atualizado: {{valorTotalAtualizado}}</p>
+                      <p class="p-0 m-0" id="light-card">Valor Inicial: {{attribs.valorAplicado|floatformat:'0'}}</p>
+                      <p class="p-0 m-0" id="light-card">Valor Atualizado: {{attribs.valorAtualizado|floatformat:'0'}}</p>
                     </div>
 
                   </div>
                 </div>
-                <div class="card-body">
-                  <h3 class="c-title text-center" id="font-dark">{{ portfolio.nome }}</h3>
-                  <p class="c-text" id="font-darkish">Criado em: {{ portfolio.data_criacao.date }}</p>
+                <div class="card-body d-lg-flex justify-content-end">
+                  <div class="row">
+                    <div class="col-12 d-lg-flex justify-content-center">
+                        <h3 class="c-title text-center" id="font-dark">{{ portfolio.nome }}</h3><br>
+                    </div>
+
+                    <div class="w-100 d-none d-md-block"></div>
+
+                    <div class="col-12 d-lg-flex justify-content-center">
+                        <a class="buton strong-purple" href="{% url 'portfolios:resumo' pk=portfolio.pk %}">Ver Desempenho</a>
+                    </div>
+                  </div>
                 </div>
-              <ul class="list-group list-group-flush p-0 m-0">
-                {% for tipo, valores in valorByTipo.items %}
-                  <li class="list-group-item">
-                    <p> {{tipo}} : {{valores.valor}} </p>
-                  </li>
-                {% endfor %}
-              </ul>
+
               <div class="card-body p-0">
                 <div class="row card-bottom ">
                   <div class="col card-buton-bottom-right">
@@ -126,12 +197,18 @@
                 </div>
               </div>
            </div>
-
-      {% endfor %}
-    {% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
   </div>
+</div>
 </div>
 
 
-
+<script type="text/javascript">
+  // Action on form additions
+    if ({{sem_portfolio|lower}}==true) {
+      $('#PortfolioHelpModal').modal('show')
+    }
+</script>
 {% endblock content %}
