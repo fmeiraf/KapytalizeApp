@@ -11,7 +11,16 @@
     /* -------------------------------------
         RESPONSIVE AND MOBILE FRIENDLY STYLES
     ------------------------------------- */
+    @media only screen and (min-width: 630px) {
+      #content-body{
+        width: 580px !important;
+      }
+    }
     @media only screen and (max-width: 620px) {
+      #content-body{
+        width: 100% !important;
+      }
+
       table[class=body] h1 {
         font-size: 28px !important;
         margin-bottom: 10px !important;
@@ -97,11 +106,11 @@
     <table border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background-color: #f6f6f6;">
       <tr>
         <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
-        <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 600px; padding: 10px; width: 580px;">
+        <td id="content-body" class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 600px; padding: 10px; ">
           <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 600px; padding: 10px;">
 
             <!-- START CENTERED WHITE CONTAINER -->
-            <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">This is preheader text. Some clients will show this text as a preview.</span>
+            <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">Olá! Veja o desempenho do seu portfolio hoje.</span>
             <table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;">
 
               <!-- START MAIN CONTENT AREA -->
@@ -120,7 +129,7 @@
                                   <h2 style="color:#fc6188; margin-left:5px;" align="left">Kapytalize.  </h2>
                                 </th>
                                 <th colspan="2" align="right">
-                                  <h3 style="color:#ffffff;margin-left:4px; margin-right:auto;" align=="right"><strong style="margin-right:auto;"><small>.</small></strong></h3>
+                                  <h3 style="color:#ffffff;margin-left:4px; margin-right:auto;" align=="right"><strong style="margin-right:auto;"><small>{{hoje}}</small></strong></h3>
                                 </th>
                               </tr>
                             </tbody>
@@ -316,23 +325,23 @@
                                       <tbody>
                                         {% for aplic, dadosAplic in aplicacoes.items %}
                                           {% if aplic.ativo.grupo_ativo.desc_grupo == 'FII' %}
-                                        <tr style="">
-                                            <div style="margin-top:10px;">
-                                              <td style="font-size:12px; margin:2px 2px 2px 2px;">{{aplic.ativo.sigla_ativo}}</td>
-                                              <td style="font-size:12px;">
-                                                <div style="margin:auto; background-color: #641b44; width:60%; border-radius:80px;
-                                                            padding:5px 2px 5px 2px; color:#ffffff;">
-                                                  {{ dadosAplic.ganhoNominalRendas|floatformat:'0' }}
+                                            <tr style="">
+                                                <div style="margin-top:10px;">
+                                                  <th scope='row' style="font-size:12px; margin:2px 2px 2px 2px;">{{aplic.ativo.sigla_ativo}}</th>
+                                                  <td style="font-size:12px;">
+                                                    <div style="margin:auto; background-color: #641b44; width:60%; border-radius:80px;
+                                                                padding:5px 2px 5px 2px; color:#ffffff;">
+                                                      {{ dadosAplic.ganhoNominalRendas|floatformat:'0' }}
+                                                    </div>
+                                                  </td>
+                                                  <td style="font-size:12px;  ">
+                                                    <div style="margin:auto; background-color: #641b44; width:60%; border-radius:80px;
+                                                                padding:5px 2px 5px 2px; color:#ffffff;">
+                                                      {{ dadosAplic.ganhoPercRendas|floatformat:'0' }}%
+                                                    </div>
+                                                  </td>
                                                 </div>
-                                              </td>
-                                              <td style="font-size:12px;  ">
-                                                <div style="margin:auto; background-color: #641b44; width:60%; border-radius:80px;
-                                                            padding:5px 2px 5px 2px; color:#ffffff;">
-                                                  {{ dadosAplic.ganhoPercRendas|floatformat:'0' }}%
-                                                </div>
-                                              </td>
-                                            </div>
-                                        </tr>
+                                            </tr>
                                         {% endif %}
                                       {% endfor %}
                                       </tbody>
@@ -438,7 +447,7 @@
 
                                                 <table border="0" cellpadding="0" cellspacing="0" class="" style="border-collapse: separate; mso-table-lspace: 0pt;
                                                                                                                   mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;
-                                                                                                                  margin: 10px 2px 15px 2px">
+                                                                                                                  margin: 10px 2px 15px 2px; border-spacing:0 0.8em;">
                                                   <thead>
                                                     <tr>
                                                       <th></th>
@@ -448,27 +457,27 @@
                                                     </tr>
                                                   </thead>
                                                   <tbody>
-                                                    <tr style="">
-                                                      {% for aplic, dadosAplic in aplicacoes.items %}
-                                                        {% if aplic.ativo.grupo_ativo.desc_grupo == 'Ações' %}
-                                                        <div style="margin-top:10px;">
-                                                          <td style="font-size:12px; margin:2px 2px 2px 2px;">{{aplic.ativo.sigla_ativo}}</td>
-                                                          <td style="font-size:12px;  ">
-                                                            <div style="margin:auto; background-color: #086041; width:60%; border-radius:80px;
-                                                                        padding:5px 2px 5px 2px; color:#ffffff;">
-                                                              {{ dadosAplic.ganhoNominalRendas|floatformat:'0' }}
-                                                            </div>
-                                                          </td>
-                                                          <td style="font-size:12px;  ">
-                                                            <div style="margin:auto; background-color: #086041; width:60%; border-radius:80px;
-                                                                        padding:5px 2px 5px 2px; color:#ffffff;">
-                                                              {{ dadosAplic.ganhoPercRendas|floatformat:'0' }}%
-                                                            </div>
-                                                          </td>
-                                                        </div>
-                                                        {% endif %}
-                                                      {% endfor %}
-                                                    </tr>
+                                                    {% for aplic, dadosAplic in aplicacoes.items %}
+                                                      {% if aplic.ativo.grupo_ativo.desc_grupo == 'Ações' %}
+                                                          <tr style="margin-bottom:10px;">
+                                                              <div style="margin-top:10px;">
+                                                                <th style="font-size:12px; margin:2px 2px 2px 2px;">{{aplic.ativo.sigla_ativo}}</th>
+                                                                <td style="font-size:12px;  ">
+                                                                  <div style="margin:auto; background-color: #086041; width:60%; border-radius:80px;
+                                                                              padding:5px 2px 5px 2px; color:#ffffff;">
+                                                                    {{ dadosAplic.ganhoNominalRendas|floatformat:'0' }}
+                                                                  </div>
+                                                                </td>
+                                                                <td style="font-size:12px;  ">
+                                                                  <div style="margin:auto; background-color: #086041; width:60%; border-radius:80px;
+                                                                              padding:5px 2px 5px 2px; color:#ffffff;">
+                                                                    {{ dadosAplic.ganhoPercRendas|floatformat:'0' }}%
+                                                                  </div>
+                                                                </td>
+                                                              </div>
+                                                          </tr>
+                                                      {% endif %}
+                                                    {% endfor %}
                                                   </tbody>
                                                 </table>
 
@@ -573,7 +582,7 @@
 
                                                             <table border="0" cellpadding="0" cellspacing="0" class="" style="border-collapse: separate; mso-table-lspace: 0pt;
                                                                                                                               mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;
-                                                                                                                              margin: 10px 2px 15px 2px">
+                                                                                                                              margin: 10px 2px 15px 2px; border-spacing:0 0.8em;">
                                                               <thead>
                                                                 <tr>
                                                                   <th></th>
@@ -583,11 +592,11 @@
                                                                 </tr>
                                                               </thead>
                                                               <tbody>
-                                                                <tr style="">
-                                                                  {% for aplic, dadosAplic in aplicacoes.items %}
-                                                                    {% if aplic.ativo.grupo_ativo.desc_grupo == 'Tesouro Direto' %}
+                                                                {% for aplic, dadosAplic in aplicacoes.items %}
+                                                                  {% if aplic.ativo.grupo_ativo.desc_grupo == 'Tesouro Direto' %}
+                                                                <tr style="margin-bottom:10px;">
                                                                     <div style="margin-top:10px;">
-                                                                      <td style="font-size:12px; margin:2px 2px 2px 2px;">{{aplic.ativo.desc_ativo}}</td>
+                                                                      <th style="font-size:12px; margin:2px 2px 2px 2px;">{{aplic.ativo.desc_ativo}}</th>
                                                                       <td style="font-size:12px;  ">
                                                                         <div style="margin:auto; background-color: #7c7c21; width:60%; border-radius:80px;
                                                                                     padding:5px 2px 5px 2px; color:#ffffff;">
@@ -603,6 +612,9 @@
                                                                     </div>
                                                                     {% endif %}
                                                                   {% endfor %}
+                                                                </tr>
+                                                                <tr>
+
                                                                 </tr>
                                                               </tbody>
                                                             </table>

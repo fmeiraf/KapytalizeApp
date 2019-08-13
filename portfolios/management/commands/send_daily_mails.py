@@ -34,6 +34,7 @@ class Command(BaseCommand):
                     'aplicacoes' : aplicsDetalhe,
                     'dadosTipo' : valoresTipo,
                     'dadosTotais': valoresTotais,
+                    'hoje': hoje
                     }
                 )
                 enviar_email = send_mail(
