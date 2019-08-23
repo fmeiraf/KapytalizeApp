@@ -8,6 +8,7 @@ app_name = 'accounts'
 
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),
+    path('sua_conta/', views.SuaConta.as_view(), name='sua-conta'),
     path('logged/', views.Logged.as_view(), name='logged'),
     path('logout/', auth_views.LogoutView.as_view(template_name='accounts/thanks.html'), name='logout'),
     path('password_reset/',

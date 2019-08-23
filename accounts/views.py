@@ -12,3 +12,6 @@ class SignUp(CreateView):
 
 class Logged(TemplateView):
     template_name = 'portfolios/portfolio_list.html'
+
+class SuaConta(TemplateView):
+    template_name = 'accounts/sua_conta.html'

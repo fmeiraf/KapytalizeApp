@@ -26,7 +26,7 @@ class PortfolioCreationForm(ModelForm):
 
 
 class AplicacaoCreationForm(ModelForm):
-    tipo_ativo = forms.ModelChoiceField(queryset=models.GrupoAtivo.objects.all())
+    tipo_ativo = forms.ModelChoiceField(queryset=models.GrupoAtivo.objects.exclude(cod_grupo=6))
 
     class Meta:
         model = models.Aplicacao
