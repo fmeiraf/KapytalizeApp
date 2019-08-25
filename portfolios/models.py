@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from functools import reduce
 import datetime
 
 User = get_user_model()
@@ -205,33 +206,65 @@ class Aplicacao_Custom_Queryset(models.QuerySet):
         contagem_ativos = []
         for aplic in aplicacoes:
             infoAtivo = dict()
-            ##pegando ultimo preço
-            infoAtivo['ultimoPreco'] = PrecoAtivo.customObjects.get_last_prices_unity(aplic.ativo.pk)
-            infoAtivo['valorFinalAtualizado'] = infoAtivo['ultimoPreco'] * aplic.quantidade_aplicada
-            infoAtivo['ganhoNominalPreco'] = infoAtivo['valorFinalAtualizado'] - aplic.valor_aplicado
-            infoAtivo['ganhoPercPreco'] = round((((infoAtivo['valorFinalAtualizado'] / aplic.valor_aplicado) - 1)*100), 1)
 
-            ##pegando proventos
-            if aplic.ativo in contagem_ativos:
+            if aplic.ativo.grupo_ativo.cod_grupo in [4,5]:
+                dias_IR =  datetime.date.today() - aplic.data_aplicacao
+                dias_IR = dias_IR.days
+                IR = 0
+                if dias_IR <= 180:
+                    IR = 0.225
+                elif dias_IR > 180 and dias_IR <= 360:
+                    IR = 0.20
+                elif dias_IR > 360 and dias_IR <= 720:
+                    IR = 0.175
+                else:
+                    IR = 0.15
+
+                taxas_cdi = [((((x.preco*(1/252))*(aplic.taxa_entrada/100))/100)+1) for x in PrecoAtivo.objects.filter(cod_ativo=100000).filter(data__range=(aplic.data_aplicacao, datetime.date.today()))]
+
+                multiplicador = reduce((lambda x, y: x * y), taxas_cdi)
+
+                ganho_liq_IR = ((multiplicador-1) * aplic.quantidade_aplicada) * (1-IR)
+
+                infoAtivo['ultimoPreco'] = 0
+                infoAtivo['valorFinalAtualizado'] = aplic.quantidade_aplicada + ganho_liq_IR
+                infoAtivo['ganhoNominalPreco'] = infoAtivo['valorFinalAtualizado'] - aplic.valor_aplicado
+                infoAtivo['ganhoPercPreco'] = round((((infoAtivo['valorFinalAtualizado'] / aplic.valor_aplicado) - 1)*100), 1)
+
                 infoAtivo['proventos'] = 0
                 infoAtivo['ganhoNominalRendas'] = 0
                 infoAtivo['ganhoPercRendas'] = 0
                 infoAtivo['valorFinalAtualizadoRendas'] = infoAtivo['valorFinalAtualizado']
+
             else:
-                proventosOficiais = Proventos.customObjects.get_proventos_detail_unity(aplic)
-                if proventosOficiais == {}:
+
+                ##pegando ultimo preço
+                infoAtivo['ultimoPreco'] = PrecoAtivo.customObjects.get_last_prices_unity(aplic.ativo.pk)
+                infoAtivo['valorFinalAtualizado'] = infoAtivo['ultimoPreco'] * aplic.quantidade_aplicada
+                infoAtivo['ganhoNominalPreco'] = infoAtivo['valorFinalAtualizado'] - aplic.valor_aplicado
+                infoAtivo['ganhoPercPreco'] = round((((infoAtivo['valorFinalAtualizado'] / aplic.valor_aplicado) - 1)*100), 1)
+
+                ##pegando proventos
+                if aplic.ativo in contagem_ativos:
                     infoAtivo['proventos'] = 0
-                    infoAtivo['ganhoNominalRendas'] = infoAtivo['ganhoNominalPreco']
-                    infoAtivo['ganhoPercRendas'] = infoAtivo['ganhoPercPreco']
+                    infoAtivo['ganhoNominalRendas'] = 0
+                    infoAtivo['ganhoPercRendas'] = 0
                     infoAtivo['valorFinalAtualizadoRendas'] = infoAtivo['valorFinalAtualizado']
                 else:
-                    proventosPagos = [ dados['valor'] * aplic.quantidade_aplicada for cod,dados in proventosOficiais.items() ]
-                    infoAtivo['proventos'] = sum(proventosPagos)
-                    infoAtivo['ganhoNominalRendas'] = (infoAtivo['valorFinalAtualizado'] + infoAtivo['proventos']) - aplic.valor_aplicado
-                    infoAtivo['ganhoPercRendas'] = round(((((infoAtivo['valorFinalAtualizado'] + infoAtivo['proventos']) / aplic.valor_aplicado) -1)*100),1)
-                    infoAtivo['valorFinalAtualizadoRendas'] = infoAtivo['valorFinalAtualizado'] + infoAtivo['proventos']
+                    proventosOficiais = Proventos.customObjects.get_proventos_detail_unity(aplic)
+                    if proventosOficiais == {}:
+                        infoAtivo['proventos'] = 0
+                        infoAtivo['ganhoNominalRendas'] = infoAtivo['ganhoNominalPreco']
+                        infoAtivo['ganhoPercRendas'] = infoAtivo['ganhoPercPreco']
+                        infoAtivo['valorFinalAtualizadoRendas'] = infoAtivo['valorFinalAtualizado']
+                    else:
+                        proventosPagos = [ dados['valor'] * aplic.quantidade_aplicada for cod,dados in proventosOficiais.items() ]
+                        infoAtivo['proventos'] = sum(proventosPagos)
+                        infoAtivo['ganhoNominalRendas'] = (infoAtivo['valorFinalAtualizado'] + infoAtivo['proventos']) - aplic.valor_aplicado
+                        infoAtivo['ganhoPercRendas'] = round(((((infoAtivo['valorFinalAtualizado'] + infoAtivo['proventos']) / aplic.valor_aplicado) -1)*100),1)
+                        infoAtivo['valorFinalAtualizadoRendas'] = infoAtivo['valorFinalAtualizado'] + infoAtivo['proventos']
 
-            contagem_ativos.append(aplic.ativo)
+                contagem_ativos.append(aplic.ativo)
 
             aplicsDetalhe[aplic] = infoAtivo
 
