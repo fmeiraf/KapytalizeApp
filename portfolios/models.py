@@ -356,4 +356,7 @@ class Aplicacao(models.Model):
 
     @property
     def quantidade_aplicada(self):
-        return self.valor_aplicado // self.preco_entrada #arredondamento pra baixo, independente do restante no decimal
+        if self.ativo.grupo_ativo.cod_grupo == 3:
+            return self.valor_aplicado / self.preco_entrada #arredondamento pra baixo, independente do restante no decimal
+        else:
+            return self.valor_aplicado // self.preco_entrada

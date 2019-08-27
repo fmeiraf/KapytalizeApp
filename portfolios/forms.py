@@ -1,6 +1,9 @@
 from django.forms import ModelForm
 from django.core.exceptions import ValidationError
 from django import forms
+from django.forms.widgets import Input
+from decimal import Decimal
+from django.utils.translation import ugettext_lazy as _
 from . import models
 import pdb
 from dal import autocomplete
@@ -24,9 +27,14 @@ class PortfolioCreationForm(ModelForm):
         if cleaned_data.get('nome') in user_portfolios:
             raise ValidationError("Esse nome de Portfolio já existe. Por favor, escolha um outro nome.")
 
+class PercentInput (forms.TextInput):
+    def render(self, name, value, attrs=None):
+        return '%s %%' % super(PercentInput, self).render(name, value, attrs, renderer=None)
+
 
 class AplicacaoCreationForm(ModelForm):
     tipo_ativo = forms.ModelChoiceField(queryset=models.GrupoAtivo.objects.exclude(cod_grupo=6))
+    #taxa_entrada = forms.DecimalField(decimal_places=2, widget=PercentInput())
 
     class Meta:
         model = models.Aplicacao
@@ -34,6 +42,7 @@ class AplicacaoCreationForm(ModelForm):
         widgets = {
                 'ativo': autocomplete.ModelSelect2(url='portfolios:ativo-autocomplete',
                                                    forward=['tipo_ativo']),
+
         }
 
 

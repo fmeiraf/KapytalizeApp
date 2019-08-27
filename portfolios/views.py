@@ -171,6 +171,7 @@ def portfolio_resumo(request, pk):
 
         aplicsDetalhe, valoresTipo, valoresTotais = models.Aplicacao.customObjects.get_full_results(portfolio.pk, aplicacoes, tiposAtivo)
 
+        print(aplicsDetalhe)
 
         return render(request, 'portfolios/resumo.html', { 'portfolio' : portfolio,
                                                            'tipoAtivo': tiposAtivo,
